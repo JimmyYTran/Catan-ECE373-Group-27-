@@ -71,5 +71,6 @@ public class Node {
 	
 	public void addNearbyHex(Hex h) {
 		this.NearbyHexes.add(h);
+		h.addNearbyNode(this);
 	}
 }

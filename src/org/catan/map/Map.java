@@ -1,4 +1,4 @@
-package org.MapClassTesting;
+package org.catan.map;
 import java.util.ArrayList; // Needed for the ArrayList class
 import java.util.Random;
 
@@ -82,6 +82,7 @@ public class Map {
 		//initialize the members of the Hexes ArrayList//////////////////////////////////////////
 		//notes: there are 1 desert, 3 mountains, 4 forests, 3 hills, 4 fields, and 4 pastures, one 12&2, and two of 3-11 (excluding 7)
 		for(int i =0; i < 19; i++) {//loop that creates 19 hexes
+			go = false;		//setup for while loop
 			h = new Hex();	//creates a new hex object to be edited and then added to the list
 			
 			while(go == false) {//this loop assigns the hex a resource type randomly
@@ -91,18 +92,21 @@ public class Map {
 						if(Mountain < 3) { //if we haven't already made too many mountains, make this hex a mountain
 							h.setResourceType("ore");  
 							Mountain++;
+							go = true;//so that after assigning a resource the loop exits
 						}
 						break;
 					case 1:	//field
 						if(Field < 4) { //if we haven't already made too many fields, make this hex a mountain
 							h.setResourceType("grain");  
 							Field++;
+							go = true;//so that after assigning a resource the loop exits
 						}
 						break;
 					case 2:	//pasture
 						if(Pasture < 4) { //if we haven't already made too many pastures, make this hex a mountain
 							h.setResourceType("wool");  
 							Pasture++;
+							go = true;//so that after assigning a resource the loop exits
 						}
 						break;
 					case 3:	//forest
@@ -115,14 +119,16 @@ public class Map {
 						if(Hill < 3) { //if we haven't already made too many hills, make this hex a mountain
 							h.setResourceType("brick");  
 							Hill++;
+							go = true;//so that after assigning a resource the loop exits
 						}
 						break;
 					case 5: //desert
-						if(Desert < 1) { //if we haven't already made too many deserts, make this hex a mountain
+						if(Desert < 1) { //if we haven't already made too many deserts, make this hex a desert
 							h.setResourceType("nothing");  
 							Desert++;
 							h.setRobberStatus(true);
 							RobberHex = i;//this notes that the robberhex is the desert hex, which is index i in the List
+							go = true;//so that after assigning a resource the loop exits
 						}
 						break;
 					default:	//this can be used for errors
@@ -136,6 +142,7 @@ public class Map {
 			while(go == false) {//this loop assigns the hex a dice number randomly
 				if(h.getResourceType().compareTo("nothing") == 0) {
 					//if the currently being made hex is the desert don't assign a dice number, it will have "1" which is impossible to roll
+					go = true;
 				}
 				else {
 					pickedNum = (rand.nextInt(11)+2);//this is to determine a dice number 2-12
@@ -144,65 +151,74 @@ public class Map {
 							if(two < 1) { //if we don't have a two already
 								h.setDiceNumber(2);  
 								two++;
+								go = true;
 							}
 							break;
 						case 3:	//dice number 3
 							if(three < 2) { //if we don't have two threes already
 								h.setDiceNumber(3);  
 								three++;
+								go = true;
 							}
 							break;
 						case 4:	//dice number 4
 							if(four < 2) { //if we don't have two fours already
 								h.setDiceNumber(4);  
 								four++;
+								go = true;
 							}
 							break;
 						case 5:	//dice number 5
 							if(five < 2) { //if we don't have two 5s already
 								h.setDiceNumber(5);  
 								five++;
+								go = true;
 							}
 							break;
 						case 6:	//dice number 6
 							if(six < 2) { //if we don't have two 6s already
 								h.setDiceNumber(6);  
 								six++;
+								go = true;
 							}
 							break;
 						case 8:	//dice number 8
 							if(eight < 2) { //if we don't have two 8s already
 								h.setDiceNumber(8);  
 								eight++;
+								go = true;
 							}
 							break;
 						case 9:	//dice number 9
 							if(nine < 2) { //if we don't have two 9s already
 								h.setDiceNumber(9);  
 								eight++;
+								go = true;
 							}
 							break;
 						case 10:	//dice number 10
 							if(ten < 2) { //if we don't have two 10s already
 								h.setDiceNumber(10);  
 								ten++;
+								go = true;
 							}
 							break;
 						case 11:	//dice number 11
 							if(eleven < 2) { //if we don't have two 11s already
 								h.setDiceNumber(11);  
 								eleven++;
+								go = true;
 							}
 							break;
 						case 12:	//dice number 12
 							if(twelve < 1) { //if we don't have a 12s already
 								h.setDiceNumber(12);  
 								twelve++;
+								go = true;
 							}
 							break;
 						default:	//this is for the case of 7, don't assign a number, try again
 							break;
-							
 					}//end of switch statement
 				}//end of else statement
 			}//end of while loop for assigning dice numbers
@@ -692,6 +708,7 @@ public class Map {
 		
 		
 		//the following code sets the Nearby Edges and Nodes and Hexes for the Nodes of the Map////////////
+		//note also that when setting a node's nearby hex, it also sets the hex to have that node as a nearby node
 		//0
 		Nodes.get(0).addNearbyEdge(Edges.get(0));
 		Nodes.get(0).addNearbyEdge(Edges.get(1));
@@ -1148,6 +1165,141 @@ public class Map {
 		Nodes.get(53).addNearbyNode(Nodes.get(49));
 		Nodes.get(53).addNearbyNode(Nodes.get(50));
 		Nodes.get(53).addNearbyHex(Hexes.get(18));
+		
+		//the following code sets nearby edges for hexes
+		//0
+		Hexes.get(0).addNearbyEdge(Edges.get(0));
+		Hexes.get(0).addNearbyEdge(Edges.get(1));
+		Hexes.get(0).addNearbyEdge(Edges.get(6));
+		Hexes.get(0).addNearbyEdge(Edges.get(7));
+		Hexes.get(0).addNearbyEdge(Edges.get(11));
+		Hexes.get(0).addNearbyEdge(Edges.get(12));
+		//1
+		Hexes.get(1).addNearbyEdge(Edges.get(2));
+		Hexes.get(1).addNearbyEdge(Edges.get(3));
+		Hexes.get(1).addNearbyEdge(Edges.get(7));
+		Hexes.get(1).addNearbyEdge(Edges.get(8));
+		Hexes.get(1).addNearbyEdge(Edges.get(13));
+		Hexes.get(1).addNearbyEdge(Edges.get(14));
+		//2
+		Hexes.get(2).addNearbyEdge(Edges.get(4));
+		Hexes.get(2).addNearbyEdge(Edges.get(5));
+		Hexes.get(2).addNearbyEdge(Edges.get(8));
+		Hexes.get(2).addNearbyEdge(Edges.get(9));
+		Hexes.get(2).addNearbyEdge(Edges.get(15));
+		Hexes.get(2).addNearbyEdge(Edges.get(16));
+		//3
+		Hexes.get(3).addNearbyEdge(Edges.get(10));
+		Hexes.get(3).addNearbyEdge(Edges.get(11));
+		Hexes.get(3).addNearbyEdge(Edges.get(18));
+		Hexes.get(3).addNearbyEdge(Edges.get(19));
+		Hexes.get(3).addNearbyEdge(Edges.get(24));
+		Hexes.get(3).addNearbyEdge(Edges.get(25));
+		//4
+		Hexes.get(4).addNearbyEdge(Edges.get(12));
+		Hexes.get(4).addNearbyEdge(Edges.get(13));
+		Hexes.get(4).addNearbyEdge(Edges.get(19));
+		Hexes.get(4).addNearbyEdge(Edges.get(20));
+		Hexes.get(4).addNearbyEdge(Edges.get(26));
+		Hexes.get(4).addNearbyEdge(Edges.get(27));
+		//5
+		Hexes.get(5).addNearbyEdge(Edges.get(14));
+		Hexes.get(5).addNearbyEdge(Edges.get(15));
+		Hexes.get(5).addNearbyEdge(Edges.get(20));
+		Hexes.get(5).addNearbyEdge(Edges.get(21));
+		Hexes.get(5).addNearbyEdge(Edges.get(28));
+		Hexes.get(5).addNearbyEdge(Edges.get(29));
+		//6
+		Hexes.get(6).addNearbyEdge(Edges.get(16));
+		Hexes.get(6).addNearbyEdge(Edges.get(17));
+		Hexes.get(6).addNearbyEdge(Edges.get(21));
+		Hexes.get(6).addNearbyEdge(Edges.get(22));
+		Hexes.get(6).addNearbyEdge(Edges.get(30));
+		Hexes.get(6).addNearbyEdge(Edges.get(31));
+		//7
+		Hexes.get(7).addNearbyEdge(Edges.get(23));
+		Hexes.get(7).addNearbyEdge(Edges.get(24));
+		Hexes.get(7).addNearbyEdge(Edges.get(33));
+		Hexes.get(7).addNearbyEdge(Edges.get(34));
+		Hexes.get(7).addNearbyEdge(Edges.get(39));
+		Hexes.get(7).addNearbyEdge(Edges.get(40));
+		//8
+		Hexes.get(8).addNearbyEdge(Edges.get(25));
+		Hexes.get(8).addNearbyEdge(Edges.get(26));
+		Hexes.get(8).addNearbyEdge(Edges.get(34));
+		Hexes.get(8).addNearbyEdge(Edges.get(35));
+		Hexes.get(8).addNearbyEdge(Edges.get(41));
+		Hexes.get(8).addNearbyEdge(Edges.get(42));
+		//9
+		Hexes.get(9).addNearbyEdge(Edges.get(27));
+		Hexes.get(9).addNearbyEdge(Edges.get(28));
+		Hexes.get(9).addNearbyEdge(Edges.get(35));
+		Hexes.get(9).addNearbyEdge(Edges.get(36));
+		Hexes.get(9).addNearbyEdge(Edges.get(43));
+		Hexes.get(9).addNearbyEdge(Edges.get(44));
+		//10
+		Hexes.get(10).addNearbyEdge(Edges.get(29));
+		Hexes.get(10).addNearbyEdge(Edges.get(30));
+		Hexes.get(10).addNearbyEdge(Edges.get(36));
+		Hexes.get(10).addNearbyEdge(Edges.get(37));
+		Hexes.get(10).addNearbyEdge(Edges.get(45));
+		Hexes.get(10).addNearbyEdge(Edges.get(46));
+		//11
+		Hexes.get(11).addNearbyEdge(Edges.get(31));
+		Hexes.get(11).addNearbyEdge(Edges.get(32));
+		Hexes.get(11).addNearbyEdge(Edges.get(37));
+		Hexes.get(11).addNearbyEdge(Edges.get(38));
+		Hexes.get(11).addNearbyEdge(Edges.get(47));
+		Hexes.get(11).addNearbyEdge(Edges.get(48));
+		//12
+		Hexes.get(12).addNearbyEdge(Edges.get(40));
+		Hexes.get(12).addNearbyEdge(Edges.get(41));
+		Hexes.get(12).addNearbyEdge(Edges.get(49));
+		Hexes.get(12).addNearbyEdge(Edges.get(50));
+		Hexes.get(12).addNearbyEdge(Edges.get(54));
+		Hexes.get(12).addNearbyEdge(Edges.get(55));
+		//13
+		Hexes.get(13).addNearbyEdge(Edges.get(42));
+		Hexes.get(13).addNearbyEdge(Edges.get(43));
+		Hexes.get(13).addNearbyEdge(Edges.get(50));
+		Hexes.get(13).addNearbyEdge(Edges.get(51));
+		Hexes.get(13).addNearbyEdge(Edges.get(56));
+		Hexes.get(13).addNearbyEdge(Edges.get(57));
+		//14
+		Hexes.get(14).addNearbyEdge(Edges.get(44));
+		Hexes.get(14).addNearbyEdge(Edges.get(45));
+		Hexes.get(14).addNearbyEdge(Edges.get(51));
+		Hexes.get(14).addNearbyEdge(Edges.get(52));
+		Hexes.get(14).addNearbyEdge(Edges.get(58));
+		Hexes.get(14).addNearbyEdge(Edges.get(59));
+		//15
+		Hexes.get(15).addNearbyEdge(Edges.get(46));
+		Hexes.get(15).addNearbyEdge(Edges.get(47));
+		Hexes.get(15).addNearbyEdge(Edges.get(52));
+		Hexes.get(15).addNearbyEdge(Edges.get(53));
+		Hexes.get(15).addNearbyEdge(Edges.get(60));
+		Hexes.get(15).addNearbyEdge(Edges.get(61));
+		//16
+		Hexes.get(16).addNearbyEdge(Edges.get(55));
+		Hexes.get(16).addNearbyEdge(Edges.get(56));
+		Hexes.get(16).addNearbyEdge(Edges.get(62));
+		Hexes.get(16).addNearbyEdge(Edges.get(63));
+		Hexes.get(16).addNearbyEdge(Edges.get(66));
+		Hexes.get(16).addNearbyEdge(Edges.get(67));
+		//17
+		Hexes.get(17).addNearbyEdge(Edges.get(57));
+		Hexes.get(17).addNearbyEdge(Edges.get(58));
+		Hexes.get(17).addNearbyEdge(Edges.get(63));
+		Hexes.get(17).addNearbyEdge(Edges.get(64));
+		Hexes.get(17).addNearbyEdge(Edges.get(68));
+		Hexes.get(17).addNearbyEdge(Edges.get(69));
+		//18
+		Hexes.get(18).addNearbyEdge(Edges.get(59));
+		Hexes.get(18).addNearbyEdge(Edges.get(60));
+		Hexes.get(18).addNearbyEdge(Edges.get(64));
+		Hexes.get(18).addNearbyEdge(Edges.get(65));
+		Hexes.get(18).addNearbyEdge(Edges.get(70));
+		Hexes.get(18).addNearbyEdge(Edges.get(71));
 		
 		// The following code adds the corresponding nodes to the Harbor Nodes Lists
 		this.H1Nodes.add(this.getNode(0));		
