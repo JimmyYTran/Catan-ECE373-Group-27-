@@ -246,6 +246,9 @@ public class Player {
 		if (e.getOwner() != null) {
 			return("Another road has already been built on this edge!");
 		}
+		if (lumber < 1 || brick < 1) {
+			return("You do not have enough resources to build a road!");
+		}
 		
 		int flag = 0;									// If the flags both remains zero (no adjacent settlements, cities, or roads), return false
 		for (Node adjNode : e.getNearbyNodes()) {
@@ -274,6 +277,115 @@ public class Player {
 			return("Road successfully built!");
 		}
 	}
+	
+	public String buildStartingSettlement(Node n) {
+		/* Build a settlement on a node.
+		 * Parameter: n, the node that the player wants to build on
+		 * Returns a string that can be printed using the GUI.
+		 * 
+		 * When a settlement is built, n's owner becomes the current player.
+		 * The player uses one brick, lumber, wool, and grain.
+		 * Also, adjacent nodes have their statuses set to "unavailable".
+		 * 
+		 * A settlement can only be built on n if n meets the following criteria:
+		 * 
+		 * 1. If the node already has a settlement or city, or the adjacent nodes have a
+		 *    settlement or city, then this method returns false. Else, it returns true.
+		 * 2. The node connects to at least one of the current players nodes.
+		 * 3. The player must have at least one of each of these resources:
+		 * 	  brick, lumber, wool, grain
+		 */
+		
+		if (totalSettlements == 5) {
+			return("You have already built the maximum number of settlements! (5)");			
+		}
+		else if (n.getStatus().compareTo("na") == 0) {
+			return("Node is too close to other settlements or cities!");
+		}
+		else if ((n.getStatus().compareTo("s") == 0) || (n.getStatus().compareTo("c") == 0)) {
+			return("There is already a settlement or city on this node.");
+		}
+		else if (n.getOwner() != null) {
+			return("You cannot build in between another player's roads.");
+		}
+		else {	
+			int flag = 0;									// flag checks if node touches a road owned by current player		
+			for (Edge adjEdge : n.getNearbyEdges()) {
+				if (adjEdge.getOwner() == this) {
+					flag += 1;
+				}
+			}
+			
+			if (flag == 0) {								// If flag remains zero, it means no roads owned by the current player were found touching the node
+				return("This node does not touch any roads that you own!");
+			}
+			else {
+				n.setOwner(this);							// If criteria 2 and 3 are met...
+				n.setStatus("s");							// Set owner to current player and status to "settlement"
+				//brick -= 1;									// Subtract resources from player
+				//lumber -= 1;
+				//wool -= 1;
+				//grain -= 1;
+				totalSettlements += 1;
+				ownedNodes.add(n);
+				
+				for (Node adjNode : n.getNearbyNodes()) {
+					adjNode.setStatus("na");				// Set adjacent nodes to "unavailable" (Distance Rule)
+				}
+				
+				return("Settlement successfully built!");	// Since settlement has been built, return true						
+			}
+		}
+	}
+	
+	public String buildStartingRoad(Edge e) {
+		/* Build a road on an edge.
+		 * Parameter: e, the edge that the player wants to build on
+		 * Returns a string that can be printed using the GUI.
+		 * 
+		 * When a road is built, e's owner changes to the current player.
+		 * The player uses one brick, one lumber.
+		 * 
+		 * A road can only be built on e if e meets the following criteria:
+		 * 
+		 * 1. e must be adjacent to either a settlement or another road.
+		 * 2. The player must have at least one brick and one lumber.
+		 */
+
+		if (ownedNodes.size() == 15) {
+			return("You have already built the maximum number of roads! (15)");			
+		}
+		if (e.getOwner() != null) {
+			return("Another road has already been built on this edge!");
+		}
+		
+		int flag = 0;									// If the flags both remains zero (no adjacent settlements, cities, or roads), return false
+		for (Node adjNode : e.getNearbyNodes()) {
+			if ((adjNode.getOwner() == this) &&
+					(adjNode.getStatus().compareTo("s") == 0 || 
+					adjNode.getStatus().compareTo("c") == 0)) {
+				flag += 1;
+			}
+		}
+
+		for (Edge adjEdge : e.getNearbyEdges()) {
+			if (adjEdge.getOwner() == this) {
+				flag += 1;
+			}
+		}
+		
+		if (flag == 0) {
+			return("The edge is not adjacent to another road or owned node.");		
+		}
+		else {
+			e.setOwner(this);
+			roads.add(e);
+			
+			return("Road successfully built!");
+		}
+	}
+	
+	
 	
 	public String tradeResources(Player other, int thisTradeList[], int otherTradeList[]) {
 		/* Trade resources with another player.
