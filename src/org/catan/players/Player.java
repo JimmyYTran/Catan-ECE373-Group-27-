@@ -309,17 +309,7 @@ public class Player {
 			return("You cannot build in between another player's roads.");
 		}
 		else {	
-			int flag = 0;									// flag checks if node touches a road owned by current player		
-			for (Edge adjEdge : n.getNearbyEdges()) {
-				if (adjEdge.getOwner() == this) {
-					flag += 1;
-				}
-			}
-			
-			if (flag == 0) {								// If flag remains zero, it means no roads owned by the current player were found touching the node
-				return("This node does not touch any roads that you own!");
-			}
-			else {
+	
 				n.setOwner(this);							// If criteria 2 and 3 are met...
 				n.setStatus("s");							// Set owner to current player and status to "settlement"
 				//brick -= 1;									// Subtract resources from player
@@ -329,13 +319,14 @@ public class Player {
 				totalSettlements += 1;
 				ownedNodes.add(n);
 				
+	
 				for (Node adjNode : n.getNearbyNodes()) {
 					adjNode.setStatus("na");				// Set adjacent nodes to "unavailable" (Distance Rule)
 				}
 				
 				return("Settlement successfully built!");	// Since settlement has been built, return true						
 			}
-		}
+		
 	}
 	
 	public String buildStartingRoad(Edge e) {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Hex {
 	//fields
+	private int x;
+	private int y;
 	private int DiceNumber; // this number 2-12 indicates the number to roll to get resources from the hex
 	private String ResourceType; // Resource Keywords are: "lumber", "ore", "brick", "grain", "wool", and "nothing" (for desert)
 	private boolean RobberStatus; // true indicates robber is on the hex, false indicates it isn't
@@ -63,5 +65,10 @@ public class Hex {
 		this.NearbyEdges.add(e);
 	}
 
-	
-}
+	public void setXandY (int x , int y) {
+		this.x = x;
+		this.y = y;
+	}
+	public int getX(){ return this.x;}
+	public int getY(){ return this.y;}
+}	
