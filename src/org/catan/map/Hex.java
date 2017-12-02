@@ -52,6 +52,11 @@ public class Hex {
 	public void setNearbyEdges(ArrayList<Edge> nearbyEdges) {
 		NearbyEdges = nearbyEdges;
 	}
+	
+	public ArrayList<Edge> getNearbyEdges(){
+		return(NearbyEdges);
+	}
+	
 	public ArrayList<Node> getNearbyNodes() {
 		return(NearbyNodes);
 	}

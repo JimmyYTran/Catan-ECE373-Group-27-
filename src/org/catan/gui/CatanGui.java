@@ -31,6 +31,9 @@ public class CatanGui extends JFrame {
 	private ArrayList<Player> players;
 	private JPanel startScreen;
 	private JPanel HexoptionsScreen;
+	private int initial = 0;
+	private int countIntial = 0;
+	private DrawingPanel initialHex;
 
 	public CatanGui() {
 		super("Catan");
@@ -186,7 +189,7 @@ public class CatanGui extends JFrame {
 		hexmech.setHeight(60);
 		hexmech.setBorders(15);
 
-		DrawingPanel initialHex = new DrawingPanel();
+		initialHex = new DrawingPanel();
 		// JFrame frame = new JFrame("Works");
 		// frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = this.getContentPane();
@@ -196,6 +199,7 @@ public class CatanGui extends JFrame {
 		setLocationRelativeTo(null);
 		initialHex.setVisible(true);
 	}
+
 
 	class DrawingPanel extends JPanel {
 		int[][] board = new int[5][5];
@@ -241,27 +245,47 @@ public class CatanGui extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
+				//int count = 0;
+				//int reverse = 0;
 				Point p = new Point(hexmech.pxtoHex(e.getX(), e.getY()));
 				if (p.x < 0 || p.y < 0 || p.x >= 5 || p.y >= 5)
 					return;
 				System.out.println(p.x + " " + p.y);
 				// need to open up a new tab in here
-				buildHexOptions(p.x, p.y); 
+				//for(int i = 0; i < playernumber; i++) {
+				buildHexOptions(p.x, p.y, initial); //initial hex options
 				repaint();
+				//Will need to add cases in which this is not the player
+				if(initial < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
+				initial++;
+		
+				}
+				else if( initial == 0 && countIntial == 1 ) {//Initial stage ends when the count goes back to the first player
+					initialHex.setVisible(false);
+					System.out.println("END");
+				}
+				else if(initial == playernumber -1 && countIntial == 0) {
+					countIntial = 1;
+				}
+				else {
+					initial--; 
+					//countIntial = 1;  //if the count has hit the end of the player array, go backwards
+				}
+				//}
 			}
 		}
 
 	}
 
-	private void buildHexOptions(int x, int y) {// need to associate p.x and p.y to the hexes
+	private void buildHexOptions(int x, int y, int playerinarray) {// need to associate p.x and p.y to the hexes
 		
 		//FindHex(x,y);
 		String selectNode;
 		String selectEdge;
 		HexoptionsScreen = new JPanel();// create the panel that allows selections around the hex
 		HexoptionsScreen .setLayout(new GridLayout(6, 6));
-		String Edges[] = { "top", "top right", "top left", "bottom right", "bottom left" };
-		String Nodes[] = { "top right", "top left", "middle right", " middle left", "bottom right", "bottom left","bottom" };
+		String Edges[] = { "top", "top right", "top left", "bottom right", "bottom left","bottom" };
+		String Nodes[] = { "top right", "top left", "middle right", " middle left", "bottom right", "bottom left" };
 		nodes = new JComboBox(Nodes);
 		edges = new JComboBox(Edges);
 		HexoptionsScreen.add(new JLabel("Settlement Placement:"), BorderLayout.WEST);
@@ -269,16 +293,63 @@ public class CatanGui extends JFrame {
 		HexoptionsScreen.add(new JLabel("Road Placement:"), BorderLayout.WEST);
 		HexoptionsScreen.add(edges,BorderLayout.EAST);
 		
-		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen, "Initial Settlement", JOptionPane.OK_CANCEL_OPTION,
+		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,playerinarray + "Initial Settlement", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION){
 			//make sure the road is next to the node
 			//map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0);
-			if(nodes.getSelectedItem() == "top right") {
-				
+			int success = 0;
+			if(nodes.getSelectedItem() == Nodes[0] && map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0)));
+				success = 1;
 			}
+			else if (nodes.getSelectedItem() == Nodes[1] && map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(1).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(1)));
+				success = 1;
+			}
+			else if (nodes.getSelectedItem() == Nodes[2] &&  map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(2).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(2)));
+				success = 1;
+			}
+			else if (nodes.getSelectedItem() == Nodes[3] && map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(3).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(3)));
+				success = 1;
+			}
+			else if (nodes.getSelectedItem() == Nodes[4]  && map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(4).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(4)));
+				success = 1;
+			}
+			else if (nodes.getSelectedItem() == Nodes[5]  && map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(5).getStatus() == "a") {
+				System.out.println(players.get(playerinarray).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(5)));
+				success = 1;
+			}
+			if(edges.getSelectedItem() == Edges[0] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(0)));
+				success = 0;
+			}
+			else if(edges.getSelectedItem() == Edges[1] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(1)));
+				success = 0;
+			}
+			else if(edges.getSelectedItem() == Edges[2] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(2)));
+				success = 0;
+			}
+			else if(edges.getSelectedItem() == Edges[3] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(3)));
+				success = 0;
+			}
+			else if(edges.getSelectedItem() == Edges[4] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(4)));
+				success = 0;
+			}
+			else if(edges.getSelectedItem() == Edges[5] && success == 1) {
+				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(5)));
+				success = 0;
+			}
+			
 		}
-		System.out.println(players.get(0).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0)));//build an initial settlement in the top right position
+	//	System.out.println(players.get(0).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0)));//build an initial settlement in the top right position
 		//System.out.println();
 	}
 

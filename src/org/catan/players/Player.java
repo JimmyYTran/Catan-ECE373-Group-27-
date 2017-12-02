@@ -389,7 +389,7 @@ public class Player {
 		 * Returns a string that can be printed using the GUI.
 		 * 
 		 * Both ...TradeLists must be arrays of 5 given in this order:
-		 * 		c
+		 * 		brick, lumber, grain, wool, ore
 		 */		
 		
 		if ((brick - thisTradeList[0] < 0) ||
@@ -423,14 +423,136 @@ public class Player {
 		}
 	}
 	
-	/*
-	public String tradeResources(String s, Node port) {
+	public String tradeResources(String s, Node port, Map map, String resourceIn, String resourceWant) {
 		if (port.getOwner() != this) {
-			return("Not implemented yet");
+			return("You do not have a settlement on this node.");
 		}
-		return("Not implemented yet");
+		
+		for (Node portNode: map.getH1Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH1Rate()) {
+					return("You don't have enough resources for a 3:1 trade.");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH1Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 3 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH2Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH2Rate()) {
+					return("You don't have enough resources for a 2:1 trade.");
+				}
+				else if (resourceWant.compareTo("grain") != 0) {
+					return("You can only trade for grain at this port!");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH2Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 2 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH3Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH3Rate()) {
+					return("You don't have enough resources for a 2:1 trade.");
+				}
+				else if (resourceWant.compareTo("ore") != 0) {
+					return("You can only trade for grain at this port!");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH3Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 2 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH4Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH4Rate()) {
+					return("You don't have enough resources for a 3:1 trade.");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH4Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 3 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH5Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH5Rate()) {
+					return("You don't have enough resources for a 2:1 trade.");
+				}
+				else if (resourceWant.compareTo("wool") != 0) {
+					return("You can only trade for grain at this port!");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH5Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 2 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH6Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH6Rate()) {
+					return("You don't have enough resources for a 3:1 trade.");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH6Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 3 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH7Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH7Rate()) {
+					return("You don't have enough resources for a 3:1 trade.");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH7Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 3 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH8Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH8Rate()) {
+					return("You don't have enough resources for a 2:1 trade.");
+				}
+				else if (resourceWant.compareTo("brick") != 0) {
+					return("You can only trade for grain at this port!");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH8Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 2 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		for (Node portNode: map.getH9Nodes()) {
+			if (port == portNode) {
+				if (this.getResources(resourceIn) < map.getH9Rate()) {
+					return("You don't have enough resources for a 2:1 trade.");
+				}
+				else if (resourceWant.compareTo("lumber") != 0) {
+					return("You can only trade for grain at this port!");
+				}
+				else {
+					this.addResources(resourceIn, -1 * map.getH9Rate());
+					this.addResources(resourceWant, 1);
+					return("Successfully traded 2 " + resourceIn + " for 1 " + resourceWant);
+				}
+			}
+		}
+		return("This node is not a port.");
 	}
-	*/
 	
 	public String tradeResources(String resourceIn, String resourceWant) {
 		if (resourceIn.compareTo("brick") == 0) {
