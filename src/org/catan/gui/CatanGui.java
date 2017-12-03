@@ -214,7 +214,8 @@ public class CatanGui extends JFrame {
 		}
 		
 		private void handleResources() {
-			resourcePanel = new JPanel();
+			resourcePanel = new JPanel();			
+			resourcePanel.setLayout(new GridLayout(5, 1));			
 			resourcePanel.add(new JLabel("Amount of brick: " + Integer.toString(players.get(currentPlayer).getResources("brick"))));
 			resourcePanel.add(new JLabel("Amount of lumber: " + Integer.toString(players.get(currentPlayer).getResources("lumber"))));
 			resourcePanel.add(new JLabel("Amount of grain: " + Integer.toString(players.get(currentPlayer).getResources("grain"))));
