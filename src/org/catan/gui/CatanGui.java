@@ -18,6 +18,9 @@ public class CatanGui extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu options;
 	private JMenu trading;
+	private JMenu turnEnd;
+	private JMenu player;
+	//private JMenu playerHand;
 
 	// Options submenus
 
@@ -27,6 +30,10 @@ public class CatanGui extends JFrame {
 	private JMenuItem optionPlayer;
 	private JMenuItem optionBank;
 	private JMenuItem optionHarbor;
+	private JMenuItem optionTurnEnd;
+	private JMenuItem optionResources;
+	//private JMenuItem optionCheckCards;
+	
 	private JButton b1;
 	private JComboBox<String> cb;
 	private JComboBox<String> nodes;
@@ -35,11 +42,16 @@ public class CatanGui extends JFrame {
 	private String tradeEntity;
 	private int playernumber;
 	private ArrayList<Player> players;
+	
 	private JPanel startScreen;
 	private JPanel HexoptionsScreen;
-	private int initial = 0;
+	private JPanel resourcePanel;
+	
+	private int currentPlayer = 0;
 	private int countIntial = 0;
-	private DrawingPanel initialHex;
+	private DrawingPanel currentPlayerHex;
+	private int gameStart = 0;
+	//private String title = "Catan";
 
 	public CatanGui() {
 		super("Catan");
@@ -49,7 +61,7 @@ public class CatanGui extends JFrame {
 		setSize(1000, 500); // size
 		// setLayout(new FlowLayout(FlowLayout.CENTER));//Layout
 		startScreen();
-		//initialbuildScreen();
+		//currentPlayerbuildScreen();
 		setLocationRelativeTo(null); 
 		// add(new JLabel("<HTML><center>Welcome to Catan!</center><HTML>" ));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,6 +117,19 @@ public class CatanGui extends JFrame {
 			else if (e.getSource() == optionHarbor) {
 				handleHarborTrade();
 			}
+			else if (e.getSource() == optionResources) {
+				handleResources();
+			}
+			else if (e.getSource() == optionTurnEnd) {
+				if ((currentPlayer + 1) < players.size()){
+					currentPlayer++;
+				}
+				else {
+					currentPlayer = 0;
+				}
+				setName(players.get(currentPlayer).getName());
+			}
+			
 			// else if(e.getSource() == action){
 			// handleFunction();}include handlers here
 			// in the handler there will be the pop up windows/turning on and off the Panels
@@ -174,7 +199,7 @@ public class CatanGui extends JFrame {
 				players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
 				if (players.size() == playernumber) {
 					startScreen.setVisible(false);
-					initialbuildScreen();
+					currentPlayerbuildScreen();
 				}
 			}
 		}
@@ -186,6 +211,15 @@ public class CatanGui extends JFrame {
 		}
 		
 		private void handleHarborTrade() {
+		}
+		
+		private void handleResources() {
+			resourcePanel = new JPanel();
+			resourcePanel.add(new JLabel("Amount of brick: " + Integer.toString(players.get(currentPlayer).getResources("brick"))));
+			resourcePanel.add(new JLabel("Amount of lumber: " + Integer.toString(players.get(currentPlayer).getResources("lumber"))));
+			resourcePanel.add(new JLabel("Amount of grain: " + Integer.toString(players.get(currentPlayer).getResources("grain"))));
+			resourcePanel.add(new JLabel("Amount of wool: " + Integer.toString(players.get(currentPlayer).getResources("wool"))));
+			resourcePanel.add(new JLabel("Amount of ore: " + Integer.toString(players.get(currentPlayer).getResources("ore"))));
 		}
 	}
 
@@ -210,33 +244,23 @@ public class CatanGui extends JFrame {
 
 	}
 
-	private void initialbuildScreen() {
+	private void currentPlayerbuildScreen() {
 		hexmech.setXYasVertex(false);
 		hexmech.setHeight(60);
 		hexmech.setBorders(15);
 
-		initialHex = new DrawingPanel();
+		currentPlayerHex = new DrawingPanel();
 		// JFrame frame = new JFrame("Works");
 		// frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = this.getContentPane();
-		content.add(initialHex);
+		content.add(currentPlayerHex);
 		setSize(1000, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
-		initialHex.setVisible(true);
-			
-		/*
-		JPanel playerPanel = new JPanel();
-		playerPanel.setLayout(new GridLayout(6, 6));
-		String tradePeople[] = { "Player", "Bank", "Port" };
-		this.traders = new JComboBox(tradePeople);
-		traders.setEditable(false);
-		playerPanel.add(new JLabel("<HTML><center>Trade with: </center><HTML>"));
-		playerPanel.add(traders);
-			
-		tradeEntity = (String)cb.getSelectedItem();	
-		*/
-		
+		currentPlayerHex.setVisible(true);
+	}
+
+	private void PlayerScreen() {
 		trading = new JMenu("Trade");
 		optionPlayer = new JMenuItem("Player");
 		optionBank = new JMenuItem("Bank");
@@ -250,9 +274,28 @@ public class CatanGui extends JFrame {
 		trading.add(optionBank);
 		trading.add(optionHarbor);
 
-		menuBar.add(trading);
-	}
+		
+		player = new JMenu(players.get(currentPlayer).getName());
+		optionResources = new JMenuItem("Check Resources");
+		
+		optionResources.addActionListener(new MenuListener());
+		
+		player.add(optionResources);
+		
+		
+		turnEnd = new JMenu("End Turn");
+		optionTurnEnd = new JMenuItem("End Turn");
+		
+		optionTurnEnd.addActionListener(new MenuListener());
+		
+		turnEnd.add(optionTurnEnd);
+		
 
+		menuBar.add(trading);
+		menuBar.add(player);
+		menuBar.add(turnEnd);
+		setJMenuBar(menuBar);
+	}
 
 	class DrawingPanel extends JPanel {
 		int[][] board = new int[5][5];
@@ -306,26 +349,32 @@ public class CatanGui extends JFrame {
 				System.out.println(p.x + " " + p.y);
 				// need to open up a new tab in here
 				//for(int i = 0; i < playernumber; i++) {
-				buildHexOptions(p.x, p.y, initial); //initial hex options
+				//buildHexOptions(p.x, p.y, currentPlayer); //currentPlayer hex options
 				repaint();
 				//Will need to add cases in which this is not the player
 				//if statement game start == 0
-				if(initial < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
-				initial++;
+			if(gameStart == 0) {	
+				buildHexOptions(p.x, p.y, currentPlayer); 
+				if(currentPlayer < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
+				currentPlayer++;
 		
 				}
-				else if( initial == 0 && countIntial == 1 ) {//Initial stage ends when the count goes back to the first player
-					initialHex.setVisible(true);
-					//System.out.println("END");
+				else if( currentPlayer == 0 && countIntial == 1 ) {//currentPlayer stage ends when the count goes back to the first player
+					//currentPlayerHex.setVisible(true);
+					PlayerScreen();
+					System.out.println("END");
+					gameStart = 1;
 					//game start = 1
 				}
-				else if(initial == playernumber -1 && countIntial == 0) {
+				else if(currentPlayer == playernumber -1 && countIntial == 0) {
 					countIntial = 1;
 				}
 				else {
-					initial--; 
+					currentPlayer--; 
 					//countIntial = 1;  //if the count has hit the end of the player array, go backwards
 				}
+			}
+			repaint();
 				//}
 			}
 		}
@@ -348,7 +397,7 @@ public class CatanGui extends JFrame {
 		HexoptionsScreen.add(new JLabel("Road Placement:"), BorderLayout.WEST);
 		HexoptionsScreen.add(edges,BorderLayout.EAST);
 		
-		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,playerinarray + "Initial Settlement", JOptionPane.OK_CANCEL_OPTION,
+		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,playerinarray + "currentPlayer Settlement", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION){
 			//make sure the road is next to the node
@@ -417,9 +466,5 @@ public class CatanGui extends JFrame {
 
 		return 20;
 	}
-	
-
-	
-	
 	
 }
