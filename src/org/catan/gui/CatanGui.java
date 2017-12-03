@@ -17,16 +17,22 @@ public class CatanGui extends JFrame {
 	private Map map;
 	private JMenuBar menuBar;
 	private JMenu options;
+	private JMenu trading;
 
 	// Options submenus
 
 	private JMenuItem optionClose;
 	private JMenuItem optionRules;
 	private JMenuItem optionCredits;
+	private JMenuItem optionPlayer;
+	private JMenuItem optionBank;
+	private JMenuItem optionHarbor;
 	private JButton b1;
-	private JComboBox cb;
-	private JComboBox nodes;
-	private JComboBox edges;
+	private JComboBox<String> cb;
+	private JComboBox<String> nodes;
+	private JComboBox<String> edges;
+	private JComboBox<String> traders;
+	private String tradeEntity;
 	private int playernumber;
 	private ArrayList<Player> players;
 	private JPanel startScreen;
@@ -40,11 +46,11 @@ public class CatanGui extends JFrame {
 
 		map = new Map();// creates the map
 
-		setSize(1000, 1000); // size
+		setSize(1000, 500); // size
 		// setLayout(new FlowLayout(FlowLayout.CENTER));//Layout
 		startScreen();
 		//initialbuildScreen();
-
+		setLocationRelativeTo(null); 
 		// add(new JLabel("<HTML><center>Welcome to Catan!</center><HTML>" ));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buildGUI();
@@ -80,12 +86,24 @@ public class CatanGui extends JFrame {
 
 			if (e.getSource() == optionClose) {
 				System.exit(0);
-			} else if (e.getSource() == optionRules) {
+			} 
+			else if (e.getSource() == optionRules) {
 				handleRules();
-			} else if (e.getSource() == optionCredits) {
+			} 
+			else if (e.getSource() == optionCredits) {
 				handleCredits();
-			} else if (e.getSource() == b1) {
+			} 
+			else if (e.getSource() == b1) {
 				handleStart();
+			}
+			else if (e.getSource() == optionPlayer) {
+				handlePlayerTrade();
+			} 
+			else if (e.getSource() == optionBank) {
+				handleBankTrade();
+			} 
+			else if (e.getSource() == optionHarbor) {
+				handleHarborTrade();
 			}
 			// else if(e.getSource() == action){
 			// handleFunction();}include handlers here
@@ -160,7 +178,15 @@ public class CatanGui extends JFrame {
 				}
 			}
 		}
-
+		
+		private void handlePlayerTrade() {
+		}
+		
+		private void handleBankTrade() {
+		}
+		
+		private void handleHarborTrade() {
+		}
 	}
 
 	private void startScreen() {
@@ -194,10 +220,37 @@ public class CatanGui extends JFrame {
 		// frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = this.getContentPane();
 		content.add(initialHex);
-		setSize(500, 500);
+		setSize(1000, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		initialHex.setVisible(true);
+			
+		/*
+		JPanel playerPanel = new JPanel();
+		playerPanel.setLayout(new GridLayout(6, 6));
+		String tradePeople[] = { "Player", "Bank", "Port" };
+		this.traders = new JComboBox(tradePeople);
+		traders.setEditable(false);
+		playerPanel.add(new JLabel("<HTML><center>Trade with: </center><HTML>"));
+		playerPanel.add(traders);
+			
+		tradeEntity = (String)cb.getSelectedItem();	
+		*/
+		
+		trading = new JMenu("Trade");
+		optionPlayer = new JMenuItem("Player");
+		optionBank = new JMenuItem("Bank");
+		optionHarbor = new JMenuItem("Harbor");
+		
+		optionPlayer.addActionListener(new MenuListener());
+		optionBank.addActionListener(new MenuListener());
+		optionHarbor.addActionListener(new MenuListener());
+		
+		trading.add(optionPlayer);
+		trading.add(optionBank);
+		trading.add(optionHarbor);
+
+		menuBar.add(trading);
 	}
 
 
@@ -211,7 +264,7 @@ public class CatanGui extends JFrame {
 			// map= new Map();
 			// map = map;
 			MyMouseListener ml = new MyMouseListener();
-			addMouseListener(ml);
+			addMouseListener(ml);		
 		}
 
 		public void paint(Graphics g) {
@@ -256,13 +309,15 @@ public class CatanGui extends JFrame {
 				buildHexOptions(p.x, p.y, initial); //initial hex options
 				repaint();
 				//Will need to add cases in which this is not the player
+				//if statement game start == 0
 				if(initial < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
 				initial++;
 		
 				}
 				else if( initial == 0 && countIntial == 1 ) {//Initial stage ends when the count goes back to the first player
-					initialHex.setVisible(false);
-					System.out.println("END");
+					initialHex.setVisible(true);
+					//System.out.println("END");
+					//game start = 1
 				}
 				else if(initial == playernumber -1 && countIntial == 0) {
 					countIntial = 1;
