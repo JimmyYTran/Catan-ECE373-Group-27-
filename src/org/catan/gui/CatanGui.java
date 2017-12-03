@@ -356,7 +356,13 @@ public class CatanGui extends JFrame {
 				repaint();
 				//Will need to add cases in which this is not the player
 				//if statement game start == 0
-			if(gameStart == 0) {	
+			
+				
+				
+				
+				
+				
+				if(gameStart == 0) {	
 				buildHexOptions(p.x, p.y, currentPlayer); 
 				if(currentPlayer < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
 				currentPlayer++;
