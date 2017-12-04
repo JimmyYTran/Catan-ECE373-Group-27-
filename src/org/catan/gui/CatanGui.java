@@ -78,7 +78,7 @@ public class CatanGui extends JFrame {
 
 		map = new Map();// creates the map
 
-		setSize(1000, 500); // size
+		setSize(450, 500); // size
 		// setLayout(new FlowLayout(FlowLayout.CENTER));//Layout
 		startScreen();
 		//currentPlayerbuildScreen();
@@ -405,7 +405,7 @@ public class CatanGui extends JFrame {
 		// frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		Container content = this.getContentPane();
 		content.add(currentPlayerHex);
-		setSize(1000, 500);
+		setSize(450, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		currentPlayerHex.setVisible(true);
@@ -804,12 +804,12 @@ public class CatanGui extends JFrame {
 		JPanel MoveRobber = new JPanel();
 		moveRobby = 1;
 		MoveRobber.add(new JLabel(" A 7 was rolled! Move the robber to continue your turn"));
-		JOptionPane.showMessageDialog(null, MoveRobber, "Move the Robber", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, MoveRobber, players.get(currentPlayer).getName() + " move the Robber", JOptionPane.PLAIN_MESSAGE);
 	}
 	else {
 		JPanel Roll = new JPanel();
-		Roll.add(new JLabel("A " + dice +"was rolled!"));
-		JOptionPane.showMessageDialog(null, Roll, "Rolled", JOptionPane.PLAIN_MESSAGE);
+		Roll.add(new JLabel("A " + dice +" was rolled!"));
+		JOptionPane.showMessageDialog(null, Roll, "DiceRoll", JOptionPane.PLAIN_MESSAGE);
 		for(int i = 0; i < 19; i++) {
 			//got through map map.getHexes().get(i).getDiceNumber() == dice then go map.getHexes().get(i).get
 			if(map.getHexes().get(i).getDiceNumber() == dice) {//for all hexes with the dice number
