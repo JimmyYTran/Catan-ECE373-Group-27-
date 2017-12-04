@@ -69,6 +69,7 @@ public class CatanGui extends JFrame {
 	private int gameStart = 0;
 	private int buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
 	//private String title = "Catan";
+	private int moveRobby = 0;
 	private int tempX;
 	private int tempY;
 
@@ -146,6 +147,24 @@ public class CatanGui extends JFrame {
 				else {
 					currentPlayer = 0;
 				}
+				menuBar.removeAll();
+				options = new JMenu("Options");
+				optionClose = new JMenuItem("Close");
+				optionRules = new JMenuItem("Rules");
+				optionCredits = new JMenuItem("Credits");
+
+				optionClose.addActionListener(new MenuListener());
+				optionRules.addActionListener(new MenuListener());
+				optionCredits.addActionListener(new MenuListener());
+
+				options.add(optionClose);
+				options.add(optionRules);
+				options.add(optionCredits);
+
+				menuBar.add(options);
+				PlayerScreen();
+				System.out.println("Player Switch");
+				diceScreen();
 				setName(players.get(currentPlayer).getName());
 			}
 			else if(e.getSource() == optionRoad) {
@@ -277,8 +296,7 @@ public class CatanGui extends JFrame {
 			
 			JOptionPane.showMessageDialog(null, resourcePanel, "Resources" ,JOptionPane.PLAIN_MESSAGE );
 		}
-	 
-		
+	 		
 	  private void handleBuild(String s) {
 		  System.out.println("handleBuild");
 		  System.out.println(tempX + " " + tempY);
@@ -353,7 +371,7 @@ public class CatanGui extends JFrame {
 		  
 	  }
 		
-		
+	  
 	}
 
 	private void startScreen() {
@@ -438,12 +456,17 @@ public class CatanGui extends JFrame {
 		
 		turnEnd.add(optionTurnEnd);
 		
-
+	if(moveRobby == 0) {
 		menuBar.add(trading);
 		menuBar.add(build);
 		menuBar.add(player);
 		menuBar.add(turnEnd);
+	}
+	
 		setJMenuBar(menuBar);
+		
+	
+	
 	}
 
 	class DrawingPanel extends JPanel {
@@ -507,7 +530,7 @@ public class CatanGui extends JFrame {
 				
 				
 			
-				
+				if(moveRobby ==0) {
 				if(gameStart == 0) {	
 				buildHexOptions(p.x, p.y, currentPlayer); 
 				if(currentPlayer < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
@@ -537,6 +560,11 @@ public class CatanGui extends JFrame {
 					System.out.println(buildcount);
 				buildPlayerOptions(p.x,p.y, currentPlayer);	
 					
+				}
+			}
+				else {
+					MoveRobber(p.x,p.y,currentPlayer);
+					moveRobby = 0;
 				}
 				
 			repaint();
@@ -769,9 +797,52 @@ public class CatanGui extends JFrame {
 	
 	}
 
+	private void diceScreen(){
+		int dice = Start.DiceRoll();
+		
+	if( dice == 7) {
+		JPanel MoveRobber = new JPanel();
+		moveRobby = 1;
+		MoveRobber.add(new JLabel(" A 7 was rolled! Move the robber to continue your turn"));
+		JOptionPane.showMessageDialog(null, MoveRobber, "Move the Robber", JOptionPane.PLAIN_MESSAGE);
+	}
+	else {
+		JPanel Roll = new JPanel();
+		Roll.add(new JLabel("A " + dice +"was rolled!"));
+		JOptionPane.showMessageDialog(null, Roll, "Rolled", JOptionPane.PLAIN_MESSAGE);
+		for(int i = 0; i < 19; i++) {
+			//got through map map.getHexes().get(i).getDiceNumber() == dice then go map.getHexes().get(i).get
+			if(map.getHexes().get(i).getDiceNumber() == dice) {//for all hexes with the dice number
+				for(int j = 0; j < 6; j++) {//all the nodes
+					if(map.getHexes().get(i).getNearbyNodes().get(j).getOwner() != null && map.getHexes().get(i).getRobberStatus() == false) {//if the nodes have players and the hex doesn't have the robber
+						if(map.getHexes().get(i).getNearbyNodes().get(j).getStatus() == "c") {
+							map.getHexes().get(i).getNearbyNodes().get(j).getOwner().addResources(map.getHexes().get(i).getResourceType(), 2);
+						}
+						else {
+							map.getHexes().get(i).getNearbyNodes().get(j).getOwner().addResources(map.getHexes().get(i).getResourceType(), 1);
+						}
+						
+					}
+				}
+			}
+		}	
+	}
 	
+	}  
 	
-	
+	private void MoveRobber(int x, int y, int playerinarray) {
+		JPanel Robber = new JPanel();
+		for(int i = 0; i < 19; i++) {
+			if(map.getHexes().get(i).getRobberStatus() == true) {
+				map.getHexes().get(i).setRobberStatus(false); 
+			}
+		}
+		
+		map.getHexes().get( FindHex( x, y)).setRobberStatus(true);
+		
+		moveRobby = 0;
+		
+	}
 	
 	
 	

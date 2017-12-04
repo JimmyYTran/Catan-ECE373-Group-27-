@@ -1,5 +1,6 @@
 package org.catan.gui;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.catan.cards.*;
 import org.catan.map.*;
@@ -25,7 +26,14 @@ public class Start {
 	}
 	
 	
-	
+	public static int DiceRoll() {
+		int value = 0;
+		Random rand = new Random();	
+		
+		value = rand.nextInt(6) + rand.nextInt(6) + 2;
+		
+		return value; 
+	}
 	
 	
 	
