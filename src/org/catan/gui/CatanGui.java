@@ -45,6 +45,7 @@ public class CatanGui extends JFrame {
 	
 	private JPanel startScreen;
 	private JPanel HexoptionsScreen;
+	private JPanel PlayeroptionsScreen;
 	private JPanel resourcePanel;
 	
 	private int currentPlayer = 0;
@@ -385,9 +386,15 @@ public class CatanGui extends JFrame {
 					//countIntial = 1;  //if the count has hit the end of the player array, go backwards
 				}
 			}
+				else {
+				buildPlayerOptions(p.x,p.y, currentPlayer);	
+					
+				}
+				
 			repaint();
 				//}
 			}
+			
 		}
 
 	}
@@ -395,8 +402,7 @@ public class CatanGui extends JFrame {
 	private void buildHexOptions(int x, int y, int playerinarray) {// need to associate p.x and p.y to the hexes
 		
 		//FindHex(x,y);
-		String selectNode;
-		String selectEdge;
+		
 		HexoptionsScreen = new JPanel();// create the panel that allows selections around the hex
 		HexoptionsScreen .setLayout(new GridLayout(6, 6));
 		String Edges[] = { "top", "top right", "top left", "bottom right", "bottom left","bottom" };
@@ -408,7 +414,7 @@ public class CatanGui extends JFrame {
 		HexoptionsScreen.add(new JLabel("Road Placement:"), BorderLayout.WEST);
 		HexoptionsScreen.add(edges,BorderLayout.EAST);
 		
-		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,playerinarray + "currentPlayer Settlement", JOptionPane.OK_CANCEL_OPTION,
+		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,players.get(playerinarray).getName() + "'scurrentPlayer Settlement", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION){
 			//make sure the road is next to the node
@@ -457,6 +463,58 @@ public class CatanGui extends JFrame {
 		//System.out.println();
 	}
 
+	private void buildPlayerOptions(int x, int y, int playerinarray) {
+		PlayeroptionsScreen = new JPanel();// create the panel that allows selections around the hex
+		PlayeroptionsScreen .setLayout(new GridLayout(0,2 ));
+		String Edges[] = { "top", "top right", "top left", "bottom right", "bottom left","bottom" };
+		String Nodes[] = { "top right", "top left", "middle right", " middle left", "bottom right", "bottom left" };
+		//String name;
+		//nodes = new JComboBox(Nodes);
+		//edges = new JComboBox(Edges);
+		for(int i =0; i < 6; i++) {
+				PlayeroptionsScreen.add(new JLabel(Nodes[i] + ":")); 
+			if(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getStatus() == "na" ) {
+				PlayeroptionsScreen.add(new JLabel("Not Available")); 
+			}
+			else if(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getStatus() == "a") {
+				PlayeroptionsScreen.add(new JLabel("Available")); 
+			}
+			else {
+				PlayeroptionsScreen.add(new JLabel( map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getOwner().getName() + "'s " +  nodePlacement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i))));
+			}		
+		}
+		
+		
+		
+		
+		int result = JOptionPane.showConfirmDialog(null, PlayeroptionsScreen,players.get(playerinarray).getName() + "'s Build on Hex", JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.PLAIN_MESSAGE);
+		//PlayeroptionsScreen.add(new JLabel("Top Settlement:" + map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getOwner().getName()  ));}
+		/*PlayeroptionsScreen.add(new JLabel( map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getOwner().getName() + "'s " +  nodePlacement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i))));
+		PlayeroptionsScreen.add(new JLabel("Road Placement:"), BorderLayout.WEST);
+		PlayeroptionsScreen.add(edges,BorderLayout.EAST);
+		}
+	*/
+		
+	}
+	
+	public String nodePlacement(Node n) {
+		String node = "";
+		if(n.getStatus() == "a") {
+			node = "Available";
+		}
+		else if(n.getStatus() == "na") {
+			node = "Not Available";
+		}
+		else if(n.getStatus() == "s") {
+			node = "Settlement";
+		}
+		else if(n.getStatus() == "c") {
+			node = "City";
+		}
+		
+		return node;
+	}
 	private int FindHex(int x, int y) {
 		for (int i = 0; i < map.getHexes().size(); i++) {
 			if(x == map.getHexes().get(i).getX() && y == map.getHexes().get(i).getY()) {
