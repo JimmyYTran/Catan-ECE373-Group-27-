@@ -269,6 +269,7 @@ public class Player {
 			return("The edge is not adjacent to another road or owned node.");		
 		}
 		else {
+			e.setStatus("na");
 			e.setOwner(this);
 			brick -= 1;
 			lumber -= 1;
@@ -369,6 +370,7 @@ public class Player {
 			return("The edge is not adjacent to another road or owned node.");		
 		}
 		else {
+			e.setStatus("na");
 			e.setOwner(this);
 			roads.add(e);
 			
