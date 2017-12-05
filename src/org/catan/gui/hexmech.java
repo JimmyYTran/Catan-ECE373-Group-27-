@@ -424,10 +424,6 @@ The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 	}
 		
 		
-		
-		//
-		
-		
 		//g2.fillPolygon(hexmech.hex(x,y));
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);

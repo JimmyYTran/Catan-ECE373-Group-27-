@@ -159,7 +159,7 @@ public class CatanGui extends JFrame {
 				options.add(optionCredits);
 
 				menuBar.add(options);
-				if(players.get(currentPlayer).getPoints() >= 2) {
+				if(players.get(currentPlayer).getPoints() >= 10) {
 					
 					JPanel winner = new JPanel();
 					winner.add(new JLabel(players.get(currentPlayer).getName() + " has won!"));
@@ -513,6 +513,7 @@ public class CatanGui extends JFrame {
 			ArrayList<Integer> array = new ArrayList<Integer>(
 					Arrays.asList(7, 12, 16, 3, 8, 13, 17, 0, 4, 9, 14, 18, 1, 5, 10, 15, 2, 6, 11));
 			// draw grid
+			g2d.setStroke(new BasicStroke(1));
 			for (int i = 0; i < 5; i++) {
 				for (int j = 0; j < 5; j++) {
 					// System.out.println(i + " " + j);
@@ -532,7 +533,75 @@ public class CatanGui extends JFrame {
 			}
 			
 			//draw the player's stuff
-			//for()
+			//draw roads
+			g2d.setStroke(new BasicStroke(3));
+			for(int iii = 0; iii < map.getEdges().size(); iii++) {
+				if(map.getEdges().get(iii).getOwner() == players.get(0)) {
+						g2d.setColor(Color.RED);
+						g2d.drawLine(map.getEdge(iii).getNearbyNodes().get(0).getXpix(), map.getEdge(iii).getNearbyNodes().get(0).getYpix(), map.getEdge(iii).getNearbyNodes().get(1).getXpix(), map.getEdge(iii).getNearbyNodes().get(1).getYpix());
+				}
+				if(map.getEdges().get(iii).getOwner() == players.get(1)) {
+					g2d.setColor(Color.BLUE);
+					g2d.drawLine(map.getEdge(iii).getNearbyNodes().get(0).getXpix(), map.getEdge(iii).getNearbyNodes().get(0).getYpix(), map.getEdge(iii).getNearbyNodes().get(1).getXpix(), map.getEdge(iii).getNearbyNodes().get(1).getYpix());
+				}
+				if(players.size() > 2) {
+					if(map.getEdges().get(iii).getOwner() == players.get(2)) {
+						g2d.setColor(Color.ORANGE);
+						g2d.drawLine(map.getEdge(iii).getNearbyNodes().get(0).getXpix(), map.getEdge(iii).getNearbyNodes().get(0).getYpix(), map.getEdge(iii).getNearbyNodes().get(1).getXpix(), map.getEdge(iii).getNearbyNodes().get(1).getYpix());
+					}
+					
+				}
+				
+				if(players.size() > 3) {
+					if(map.getEdges().get(iii).getOwner() == players.get(3)) {
+						g2d.setColor(Color.WHITE);
+						g2d.drawLine(map.getEdge(iii).getNearbyNodes().get(0).getXpix(), map.getEdge(iii).getNearbyNodes().get(0).getYpix(), map.getEdge(iii).getNearbyNodes().get(1).getXpix(), map.getEdge(iii).getNearbyNodes().get(1).getYpix());
+					}
+					
+				}
+				
+				
+			}
+			//draw settlements
+			for(int ii = 0; ii < map.getNodes().size(); ii++) {
+				if(map.getNodes().get(ii).getOwner() == players.get(0)) {
+						g2d.setColor(Color.RED);
+						g2d.fillOval((map.getNodes().get(ii).getXpix() - 5),(map.getNodes().get(ii).getYpix() - 5),10,10);
+						if(map.getNodes().get(ii).getStatus().compareTo("c")== 0) {
+							g2d.drawArc((map.getNodes().get(ii).getXpix() - 10),(map.getNodes().get(ii).getYpix() - 10), 20, 20, 0, 360);
+						}
+				}
+				if(map.getNodes().get(ii).getOwner() == players.get(1)) {
+						g2d.setColor(Color.BLUE);
+						g2d.fillOval((map.getNodes().get(ii).getXpix() - 5),(map.getNodes().get(ii).getYpix() - 5),10,10);
+						if(map.getNodes().get(ii).getStatus().compareTo("c")== 0) {
+							g2d.drawArc((map.getNodes().get(ii).getXpix() - 10),(map.getNodes().get(ii).getYpix() - 10), 20, 20, 0, 360);
+						}
+				}
+				
+				if(players.size() > 2) {
+					if(map.getNodes().get(ii).getOwner() == players.get(2)) {
+							g2d.setColor(Color.ORANGE);
+							g2d.fillOval((map.getNodes().get(ii).getXpix() - 5),(map.getNodes().get(ii).getYpix() - 5),10,10);
+							if(map.getNodes().get(ii).getStatus().compareTo("c")== 0) {
+								g2d.drawArc((map.getNodes().get(ii).getXpix() - 10),(map.getNodes().get(ii).getYpix() - 10), 20, 20, 0, 360);
+							}
+					}
+				}
+				
+				if(players.size() > 3) {
+					if(map.getNodes().get(ii).getOwner() == players.get(3)) {
+							g2d.setColor(Color.WHITE);
+							g2d.fillOval((map.getNodes().get(ii).getXpix() - 5),(map.getNodes().get(ii).getYpix() - 5),10,10);
+							if(map.getNodes().get(ii).getStatus().compareTo("c")== 0) {
+								g2d.drawArc((map.getNodes().get(ii).getXpix() - 10),(map.getNodes().get(ii).getYpix() - 10), 20, 20, 0, 360);
+							}
+					}
+				}
+				
+			}
+			
+			
 			
 			/*test code///////////////////////////////////////////////
 			System.out.println("node 3 is at X: " + map.getNodes().get(3).getXpix() + "and Y: " +map.getNodes().get(3).getYpix());
