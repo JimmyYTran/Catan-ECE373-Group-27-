@@ -53,7 +53,12 @@ public class CatanGui extends JFrame {
 	private JComboBox<String> nodes;
 	private JComboBox<String> edges;
 	private JComboBox<String> traders;
-	private String tradeEntity;
+	private JComboBox<String> playerRes;
+	private JComboBox<String> bankRes;
+	private JComboBox<String> harborRes;
+	private JComboBox<String> harborCB;
+	String resourceList[] = { "brick", "lumber", "grain", "wool", "ore" };
+	String harborList[] = { "Harbor 1", "Harbor 2", "Harbor 3", "Harbor 4", "Harbor 5", "Harbor 6", "Harbor 7", "Harbor 8", "Harbor 9", };
 	private int playernumber;
 	private ArrayList<Player> players;
 	
@@ -62,6 +67,10 @@ public class CatanGui extends JFrame {
 	private JPanel HexoptionsScreen;
 	private JPanel PlayeroptionsScreen;
 	private JPanel resourcePanel;
+	private JPanel playerTrade;
+	private JPanel bankTrade;
+	private JPanel harborTrade;
+	private JPanel confirmPanel;
 	
 	private int initialOK = 0;
 	private int currentPlayer = 0;
@@ -300,12 +309,193 @@ public class CatanGui extends JFrame {
 		}
 		
 		private void handlePlayerTrade() {
+			playerTrade = new JPanel();			
+			playerTrade.setLayout(new BorderLayout());
+			
+			playerTrade.add(new JLabel(players.get(currentPlayer).getName() + "'s Resources:"), BorderLayout.WEST);
+			
+			JOptionPane.showMessageDialog(null, playerTrade, "Trade with a player!", JOptionPane.PLAIN_MESSAGE);
 		}
 		
 		private void handleBankTrade() {
+			bankTrade = new JPanel();
+			bankTrade.setLayout(new GridLayout(2, 2));
+			
+			bankTrade.add(new JLabel("Which resource do you want to give to the bank?     "));
+			playerRes = new JComboBox(resourceList);
+			playerRes.setEditable(false);
+			bankTrade.add(playerRes);
+			
+			bankTrade.add(new JLabel("Which resource do you want in return?     "));
+			bankRes = new JComboBox(resourceList);
+			bankRes.setEditable(false);
+			bankTrade.add(bankRes);
+			
+			int result = JOptionPane.showConfirmDialog(null, bankTrade, "Trade resources with the bank at a 4:1 rate", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			
+			String pResource = (String) playerRes.getSelectedItem();
+			String bResource = (String) bankRes.getSelectedItem();
+			
+			if (result == JOptionPane.OK_OPTION) {
+				confirmPanel = new JPanel();
+				confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(pResource, bResource)));
+				JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+			}
 		}
 		
 		private void handleHarborTrade() {
+			harborTrade = new JPanel();		
+			harborTrade.setLayout(new BorderLayout());
+			
+			JPanel harborNames = new JPanel();
+			harborNames.setLayout(new GridLayout(11, 1));
+			harborNames.add(new JLabel(""));
+			harborNames.add(new JLabel("Harbor 1's trade rate is " + map.getH1Rate() + " for 1 of any resource"));
+			harborNames.add(new JLabel("Harbor 2's trade rate is " + map.getH2Rate() + " for 1 grain"));
+			harborNames.add(new JLabel("Harbor 3's trade rate is " + map.getH3Rate() + " for 1 ore"));
+			harborNames.add(new JLabel("Harbor 4's trade rate is " + map.getH4Rate() + " for 1 of any resource"));
+			harborNames.add(new JLabel("Harbor 5's trade rate is " + map.getH5Rate() + " for 1 wool"));
+			harborNames.add(new JLabel("Harbor 6's trade rate is " + map.getH6Rate() + " for 1 of any resource"));
+			harborNames.add(new JLabel("Harbor 7's trade rate is " + map.getH7Rate() + " for 1 of any resource"));
+			harborNames.add(new JLabel("Harbor 8's trade rate is " + map.getH8Rate() + " for 1 brick"));
+			harborNames.add(new JLabel("Harbor 9's trade rate is " + map.getH9Rate() + " for 1 lumber"));
+			harborNames.add(new JLabel(""));
+						
+			harborTrade.add(new JLabel("Here are the trade rates of the 9 harbors. Please select a harbor to trade with:"), BorderLayout.NORTH);
+			harborTrade.add(harborNames, BorderLayout.CENTER);
+			harborCB = new JComboBox(harborList);
+			harborCB.setEditable(false);
+			harborTrade.add(harborCB, BorderLayout.SOUTH);
+	
+			int result = JOptionPane.showConfirmDialog(null, harborTrade, "Trade resources with a harbor!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			String harbor = (String) harborCB.getSelectedItem();
+			
+
+			if (result == JOptionPane.OK_OPTION) {
+				Node nodeFlag = new Node();
+				
+				if (harbor.compareTo("Harbor 1") == 0) {
+					for (Node harbor1Node: map.getH1Nodes()) {
+						if (harbor1Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor1Node;
+						}
+					}
+				}	
+				else if (harbor.compareTo("Harbor 2") == 0) {
+					for (Node harbor2Node: map.getH2Nodes()) {
+						if (harbor2Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor2Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 3") == 0) {
+					for (Node harbor3Node: map.getH3Nodes()) {
+						if (harbor3Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor3Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 4") == 0) {
+					for (Node harbor4Node: map.getH4Nodes()) {
+						if (harbor4Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor4Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 5") == 0) {
+					for (Node harbor5Node: map.getH5Nodes()) {
+						if (harbor5Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor5Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 6") == 0) {
+					for (Node harbor6Node: map.getH6Nodes()) {
+						if (harbor6Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor6Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 7") == 0) {
+					for (Node harbor7Node: map.getH7Nodes()) {
+						if (harbor7Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor7Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 8") == 0) {
+					for (Node harbor8Node: map.getH8Nodes()) {
+						if (harbor8Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor8Node;
+						}
+					}
+				}
+				else if (harbor.compareTo("Harbor 9") == 0) {
+					for (Node harbor9Node: map.getH9Nodes()) {
+						if (harbor9Node.getOwner() == players.get(currentPlayer)) {
+							nodeFlag = harbor9Node;
+						}
+					}
+				}
+				
+				if (nodeFlag.getOwner() == null) {
+					JPanel errorPanel = new JPanel();
+					errorPanel.add(new JLabel("You don't own a node at " + harbor + "!"));
+					JOptionPane.showMessageDialog(null, errorPanel, "", JOptionPane.ERROR_MESSAGE);					
+				}
+				else {
+					String harborLine = "";
+					if (harbor.compareTo("Harbor 1") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH1Rate() + " any resource : 1 " + map.getH1Resource();
+					else if (harbor.compareTo("Harbor 2") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH2Rate() + " any resource : 1 " + map.getH2Resource();
+					else if (harbor.compareTo("Harbor 3") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH3Rate() + " any resource : 1 " + map.getH3Resource();
+					else if (harbor.compareTo("Harbor 4") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH4Rate() + " any resource : 1 " + map.getH4Resource();
+					else if (harbor.compareTo("Harbor 5") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH3Rate() + " any resource : 1 " + map.getH5Resource();
+					else if (harbor.compareTo("Harbor 6") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH2Rate() + " any resource : 1 " + map.getH6Resource();
+					else if (harbor.compareTo("Harbor 7") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH3Rate() + " any resource : 1 " + map.getH7Resource();
+					else if (harbor.compareTo("Harbor 8") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH2Rate() + " any resource : 1 " + map.getH8Resource();
+					else if (harbor.compareTo("Harbor 9") == 0)
+						harborLine = harbor + "'s trade rate is " + map.getH3Rate() + " any resource : 1 " + map.getH9Resource();
+					else 
+						harborLine = "Something weird happened...";
+						
+					JPanel harborSpecTrade = new JPanel();
+					harborSpecTrade.setVisible(true);
+					harborSpecTrade.setLayout(new GridLayout(0, 2));					
+					harborSpecTrade.add(new JLabel(harborLine));
+					harborSpecTrade.add(new JLabel(""));
+
+					harborSpecTrade.add(new JLabel("Which resource do you want to give to " + harbor + "?     "));
+					playerRes = new JComboBox(resourceList);
+					playerRes.setEditable(false);
+					harborSpecTrade.add(playerRes);
+					
+					harborSpecTrade.add(new JLabel("Which resource do you want in return?     "));
+					harborRes = new JComboBox(resourceList);
+					harborRes.setEditable(false);
+					harborSpecTrade.add(harborRes);
+					
+					String pResource = (String) playerRes.getSelectedItem();
+					String hResource = (String) harborRes.getSelectedItem();
+					
+					int newResult = JOptionPane.showConfirmDialog(null, harborSpecTrade, "Trade in progress...", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+					
+					if (newResult == JOptionPane.OK_OPTION) {
+						confirmPanel = new JPanel();
+						confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(harbor, map, pResource, hResource)));
+						System.out.println(pResource + "\n");
+						System.out.println(hResource + "\n");
+						JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+					}
+				}
+			}
 		}
 		
 		private void handleResources() {
