@@ -63,6 +63,7 @@ public class CatanGui extends JFrame {
 	private JPanel PlayeroptionsScreen;
 	private JPanel resourcePanel;
 	
+	private int initialOK = 0;
 	private int currentPlayer = 0;
 	private int countIntial = 0;
 	private DrawingPanel currentPlayerHex;
@@ -167,6 +168,7 @@ public class CatanGui extends JFrame {
 					currentPlayer = 0;
 					 countIntial = 0;
 					 gameStart = 0;
+					 initialOK = 0;
 					 buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
 					//private String title = "Catan";
 					 moveRobby = 0;
@@ -488,7 +490,7 @@ public class CatanGui extends JFrame {
 	
 		setJMenuBar(menuBar);
 		
-	
+		diceScreen();
 	
 	}
 
@@ -643,22 +645,25 @@ public class CatanGui extends JFrame {
 				if(moveRobby ==0) {
 				if(gameStart == 0) {	
 				buildHexOptions(p.x, p.y, currentPlayer); 
-				if(currentPlayer < (playernumber -1) && countIntial == 0) {//countIntial reverses player order
+				if(currentPlayer < (playernumber -1) && countIntial == 0 && initialOK == 1) {//countIntial reverses player order
 				currentPlayer++;
-		
+				initialOK = 0;
 				}
-				else if( currentPlayer == 0 && countIntial == 1 ) {//currentPlayer stage ends when the count goes back to the first player
+				else if( currentPlayer == 0 && countIntial == 1 && initialOK == 1) {//currentPlayer stage ends when the count goes back to the first player
 					//currentPlayerHex.setVisible(true);
 					PlayerScreen();
 					System.out.println("END");
 					gameStart = 1;
+					initialOK = 0;
 					//game start = 1
 				}
-				else if(currentPlayer == playernumber -1 && countIntial == 0) {
+				else if(currentPlayer == playernumber -1 && countIntial == 0 && initialOK == 1) {
 					countIntial = 1;
+					initialOK = 0;
 				}
-				else {
+				else if(initialOK == 1) {
 					currentPlayer--; 
+					initialOK = 0;
 					//countIntial = 1;  //if the count has hit the end of the player array, go backwards
 				}
 				}
@@ -700,6 +705,8 @@ public class CatanGui extends JFrame {
 		HexoptionsScreen.add(nodes,BorderLayout.EAST);
 		HexoptionsScreen.add(new JLabel("Road Placement:"), BorderLayout.WEST);
 		HexoptionsScreen.add(edges,BorderLayout.EAST);
+		JPanel Confirm = new JPanel();
+		Confirm.add(new JLabel("Go again"));
 		
 		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,players.get(playerinarray).getName() + "'scurrentPlayer Settlement", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
@@ -719,33 +726,50 @@ public class CatanGui extends JFrame {
 			}
 				success = 1;
 			}
+		}	if(success == 0) {
+			
+			JOptionPane.showMessageDialog(null, Confirm, "Invaid Settlement" ,JOptionPane.PLAIN_MESSAGE );
 		}
+		
+		
 			if(edges.getSelectedItem() == Edges[0] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(0)));
 				success = 0;
+				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[1] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(1)));
 				success = 0;
+				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[2] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(2)));
 				success = 0;
+				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[3] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(3)));
 				success = 0;
+				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[4] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(4)));
 				success = 0;
+				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[5] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(5)));
 				success = 0;
+				initialOK = 1;
 			}
+		if(initialOK == 0 && success ==1) {
+			players.get(playerinarray).getNodes().remove(players.get(playerinarray).getNodes().size() -1);
+			JOptionPane.showMessageDialog(null, Confirm, "Invaid Road" ,JOptionPane.PLAIN_MESSAGE );
+		}
+			
 			
 		}
+		
 	//	System.out.println(players.get(0).buildStartingSettlement(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(0)));//build an initial settlement in the top right position
 		//System.out.println();
 	}
