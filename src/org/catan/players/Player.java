@@ -183,7 +183,8 @@ public class Player {
 				for (Node adjNode : n.getNearbyNodes()) {
 					adjNode.setStatus("na");				// Set adjacent nodes to "unavailable" (Distance Rule)
 				}
-				
+				points++;
+				System.out.println(points);
 				return("Settlement successfully built!");	// Since settlement has been built, return true						
 			}
 		}
@@ -221,7 +222,7 @@ public class Player {
 			grain -= 2;
 			totalCities += 1;
 			totalSettlements -= 1;				// Same node, but not a settlement anymore
-			
+			points++;
 			return("City successfully built!");
 		}
 	}
@@ -274,7 +275,7 @@ public class Player {
 			brick -= 1;
 			lumber -= 1;
 			roads.add(e);
-			
+		
 			return("Road successfully built!");
 		}
 	}
@@ -324,7 +325,8 @@ public class Player {
 				for (Node adjNode : n.getNearbyNodes()) {
 					adjNode.setStatus("na");				// Set adjacent nodes to "unavailable" (Distance Rule)
 				}
-				
+				points++;
+			
 				return("Settlement successfully built!");	// Since settlement has been built, return true						
 			}
 		
