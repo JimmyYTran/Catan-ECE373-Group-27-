@@ -495,7 +495,7 @@ public class CatanGui extends JFrame {
 					// System.out.println(i + " " + j);
 					if ((i == 0 && j > 0 && j < 4) || (i == 1 && j < 4) || (i == 2) || (i == 3 && j < 4)
 							|| (i == 4 && j > 0 && j < 4)) {
-						hexmech.drawHex(i, j, g2d, map.getHexes().get(array.get(0)));
+						hexmech.drawHex(i, j, g2d, array.get(0), map);
 						map.getHexes().get(array.get(0)).setXandY(i, j);
 						board[i][j] = map.getHexes().get(array.get(0)).getDiceNumber();
 						if (map.getHexes().get(array.get(0)).getRobberStatus() == true) {
@@ -507,6 +507,19 @@ public class CatanGui extends JFrame {
 					}
 				}
 			}
+			
+			//draw the player's stuff
+			//for()
+			
+			/*test code///////////////////////////////////////////////
+			System.out.println("node 3 is at X: " + map.getNodes().get(3).getXpix() + "and Y: " +map.getNodes().get(3).getYpix());
+			System.out.println("node 0 is at X: " + map.getNodes().get(0).getXpix() + "and Y: " +map.getNodes().get(0).getYpix());
+			System.out.println("node 4 is at X: " + map.getNodes().get(4).getXpix() + "and Y: " +map.getNodes().get(4).getYpix());
+			System.out.println("node 8 is at X: " + map.getNodes().get(8).getXpix() + "and Y: " +map.getNodes().get(8).getYpix());
+			System.out.println("node 12 is at X: " + map.getNodes().get(12).getXpix() + "and Y:" +map.getNodes().get(12).getYpix());
+			System.out.println("node 7 is at X: " + map.getNodes().get(7).getXpix() + "and Y: " +map.getNodes().get(7).getYpix());
+
+			//////////////////////////*/
 		}
 
 		class MyMouseListener extends MouseAdapter {

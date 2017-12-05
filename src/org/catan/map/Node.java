@@ -10,6 +10,8 @@ public class Node {
 	private ArrayList<Edge> NearbyEdges; //arraylist of all edges near the node
 	private ArrayList<Node> NearbyNodes; //arraylist of all nodes near the node
 	private Player Owner; // player that owns the node
+	private int xpix;
+	private int ypix;
 	
 	//constructors
 	public Node() {	//default constructor
@@ -18,6 +20,8 @@ public class Node {
 		NearbyEdges = new ArrayList<Edge>();	
 		NearbyNodes = new ArrayList<Node>();
 		Owner = null;
+		xpix = -1; //error values (since they shouldn't be able to be negative)
+		ypix = -1;
 	}
 	
 	//methods
@@ -73,4 +77,21 @@ public class Node {
 		this.NearbyHexes.add(h);
 		h.addNearbyNode(this);
 	}
+
+	public int getXpix() {
+		return xpix;
+	}
+
+	public void setXpix(int xpix) {
+		this.xpix = xpix;
+	}
+
+	public int getYpix() {
+		return ypix;
+	}
+
+	public void setYpix(int ypix) {
+		this.ypix = ypix;
+	}
+	
 }

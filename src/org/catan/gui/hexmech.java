@@ -98,7 +98,7 @@ and calculates all six of the points in the hexagon.
 
 		int[] cx,cy;
 
-//I think that this XYvertex stuff is taken care of in the int x line above. Why is it here twice?
+		//I think that this XYvertex stuff is taken care of in the int x line above. Why is it here twice?
 		if (XYVertex) 
 			cx = new int[] {x,x+s,x+s+t,x+s,x,x-t};  //this is for the top left vertex being at x,y. Which means that some of the hex is cutoff.
 		else
@@ -128,27 +128,306 @@ Calls: hex()
 Purpose: This function draws a hexagon based on the initial point (x,y).
 The hexagon is drawn in the colour specified in hexgame.COLOURELL.
 *********************************************************************/
-	public static void drawHex(int i, int j, Graphics2D g2, Hex resource) {// add new input that links the hexes to the grid
+	public static void drawHex(int i, int j, Graphics2D g2, Integer resource, Map map) {// add new input that links the hexes to the grid
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		Polygon poly = hex(x,y);
-		if(resource.getResourceType() == "brick") {
+		if(map.getHexes().get(resource).getResourceType() == "brick") {
 		g2.setColor(COLORBRICK);}
-		else if(resource.getResourceType() == "lumber") {
+		else if(map.getHexes().get(resource).getResourceType() == "lumber") {
 		g2.setColor(COLORLUMBER);
 		}
-		else if(resource.getResourceType() == "ore") {
+		else if(map.getHexes().get(resource).getResourceType() == "ore") {
 		g2.setColor(COLORORE);
 		}
-		else if(resource.getResourceType() == "grain") {
+		else if(map.getHexes().get(resource).getResourceType() == "grain") {
 		g2.setColor(COLORWHEAT);	
 		}
-		else if (resource.getResourceType() == "wool") {
+		else if (map.getHexes().get(resource).getResourceType() == "wool") {
 		g2.setColor(COLORWOOL);	
 		}
 		else {
 		g2.setColor(COLORDESERT);	
 		}
+		
+		
+		//section that sets the nodes xpix and ypix for the hex at resource based on the poly created in this method
+		switch (resource) {
+		case 0://we drew hex 0
+			map.getNodes().get(3).setXpix(poly.xpoints[0]);
+			map.getNodes().get(3).setYpix(poly.ypoints[0]);
+			map.getNodes().get(0).setXpix(poly.xpoints[1]);
+			map.getNodes().get(0).setYpix(poly.ypoints[1]);
+			map.getNodes().get(4).setXpix(poly.xpoints[2]);
+			map.getNodes().get(4).setYpix(poly.ypoints[2]);
+			map.getNodes().get(8).setXpix(poly.xpoints[3]);
+			map.getNodes().get(8).setYpix(poly.ypoints[3]);
+			map.getNodes().get(12).setXpix(poly.xpoints[4]);
+			map.getNodes().get(12).setYpix(poly.ypoints[4]);
+			map.getNodes().get(7).setXpix(poly.xpoints[5]);
+			map.getNodes().get(7).setYpix(poly.ypoints[5]);
+			break;
+		case 1:
+			map.getNodes().get(4).setXpix(poly.xpoints[0]);
+			map.getNodes().get(4).setYpix(poly.ypoints[0]);
+			map.getNodes().get(1).setXpix(poly.xpoints[1]);
+			map.getNodes().get(1).setYpix(poly.ypoints[1]);
+			map.getNodes().get(5).setXpix(poly.xpoints[2]);
+			map.getNodes().get(5).setYpix(poly.ypoints[2]);
+			map.getNodes().get(9).setXpix(poly.xpoints[3]);
+			map.getNodes().get(9).setYpix(poly.ypoints[3]);
+			map.getNodes().get(13).setXpix(poly.xpoints[4]);
+			map.getNodes().get(13).setYpix(poly.ypoints[4]);
+			map.getNodes().get(8).setXpix(poly.xpoints[5]);
+			map.getNodes().get(8).setYpix(poly.ypoints[5]);
+			break;
+		case 2:
+			map.getNodes().get(5).setXpix(poly.xpoints[0]);
+			map.getNodes().get(5).setYpix(poly.ypoints[0]);
+			map.getNodes().get(2).setXpix(poly.xpoints[1]);
+			map.getNodes().get(2).setYpix(poly.ypoints[1]);
+			map.getNodes().get(6).setXpix(poly.xpoints[2]);
+			map.getNodes().get(6).setYpix(poly.ypoints[2]);
+			map.getNodes().get(10).setXpix(poly.xpoints[3]);
+			map.getNodes().get(10).setYpix(poly.ypoints[3]);
+			map.getNodes().get(14).setXpix(poly.xpoints[4]);
+			map.getNodes().get(14).setYpix(poly.ypoints[4]);
+			map.getNodes().get(9).setXpix(poly.xpoints[5]);
+			map.getNodes().get(9).setYpix(poly.ypoints[5]);
+			break;
+		case 3:
+			map.getNodes().get(11).setXpix(poly.xpoints[0]);
+			map.getNodes().get(11).setYpix(poly.ypoints[0]);
+			map.getNodes().get(7).setXpix(poly.xpoints[1]);
+			map.getNodes().get(7).setYpix(poly.ypoints[1]);
+			map.getNodes().get(12).setXpix(poly.xpoints[2]);
+			map.getNodes().get(12).setYpix(poly.ypoints[2]);
+			map.getNodes().get(17).setXpix(poly.xpoints[3]);
+			map.getNodes().get(17).setYpix(poly.ypoints[3]);
+			map.getNodes().get(22).setXpix(poly.xpoints[4]);
+			map.getNodes().get(22).setYpix(poly.ypoints[4]);
+			map.getNodes().get(16).setXpix(poly.xpoints[5]);
+			map.getNodes().get(16).setYpix(poly.ypoints[5]);
+			break;
+		case 4:
+			map.getNodes().get(12).setXpix(poly.xpoints[0]);
+			map.getNodes().get(12).setYpix(poly.ypoints[0]);
+			map.getNodes().get(8).setXpix(poly.xpoints[1]);
+			map.getNodes().get(8).setYpix(poly.ypoints[1]);
+			map.getNodes().get(13).setXpix(poly.xpoints[2]);
+			map.getNodes().get(13).setYpix(poly.ypoints[2]);
+			map.getNodes().get(18).setXpix(poly.xpoints[3]);
+			map.getNodes().get(18).setYpix(poly.ypoints[3]);
+			map.getNodes().get(23).setXpix(poly.xpoints[4]);
+			map.getNodes().get(23).setYpix(poly.ypoints[4]);
+			map.getNodes().get(17).setXpix(poly.xpoints[5]);
+			map.getNodes().get(17).setYpix(poly.ypoints[5]);
+			break;
+		case 5:
+			map.getNodes().get(13).setXpix(poly.xpoints[0]);
+			map.getNodes().get(13).setYpix(poly.ypoints[0]);
+			map.getNodes().get(9).setXpix(poly.xpoints[1]);
+			map.getNodes().get(9).setYpix(poly.ypoints[1]);
+			map.getNodes().get(14).setXpix(poly.xpoints[2]);
+			map.getNodes().get(14).setYpix(poly.ypoints[2]);
+			map.getNodes().get(19).setXpix(poly.xpoints[3]);
+			map.getNodes().get(19).setYpix(poly.ypoints[3]);
+			map.getNodes().get(24).setXpix(poly.xpoints[4]);
+			map.getNodes().get(24).setYpix(poly.ypoints[4]);
+			map.getNodes().get(18).setXpix(poly.xpoints[5]);
+			map.getNodes().get(18).setYpix(poly.ypoints[5]);
+			break;
+		case 6:
+			map.getNodes().get(14).setXpix(poly.xpoints[0]);
+			map.getNodes().get(14).setYpix(poly.ypoints[0]);
+			map.getNodes().get(10).setXpix(poly.xpoints[1]);
+			map.getNodes().get(10).setYpix(poly.ypoints[1]);
+			map.getNodes().get(15).setXpix(poly.xpoints[2]);
+			map.getNodes().get(15).setYpix(poly.ypoints[2]);
+			map.getNodes().get(20).setXpix(poly.xpoints[3]);
+			map.getNodes().get(20).setYpix(poly.ypoints[3]);
+			map.getNodes().get(25).setXpix(poly.xpoints[4]);
+			map.getNodes().get(25).setYpix(poly.ypoints[4]);
+			map.getNodes().get(19).setXpix(poly.xpoints[5]);
+			map.getNodes().get(19).setYpix(poly.ypoints[5]);
+			break;
+		case 7:
+			map.getNodes().get(21).setXpix(poly.xpoints[0]);
+			map.getNodes().get(21).setYpix(poly.ypoints[0]);
+			map.getNodes().get(16).setXpix(poly.xpoints[1]);
+			map.getNodes().get(16).setYpix(poly.ypoints[1]);
+			map.getNodes().get(22).setXpix(poly.xpoints[2]);
+			map.getNodes().get(22).setYpix(poly.ypoints[2]);
+			map.getNodes().get(28).setXpix(poly.xpoints[3]);
+			map.getNodes().get(28).setYpix(poly.ypoints[3]);
+			map.getNodes().get(33).setXpix(poly.xpoints[4]);
+			map.getNodes().get(33).setYpix(poly.ypoints[4]);
+			map.getNodes().get(27).setXpix(poly.xpoints[5]);
+			map.getNodes().get(27).setYpix(poly.ypoints[5]);
+			break;
+		case 8:
+			map.getNodes().get(22).setXpix(poly.xpoints[0]);
+			map.getNodes().get(22).setYpix(poly.ypoints[0]);
+			map.getNodes().get(17).setXpix(poly.xpoints[1]);
+			map.getNodes().get(17).setYpix(poly.ypoints[1]);
+			map.getNodes().get(23).setXpix(poly.xpoints[2]);
+			map.getNodes().get(23).setYpix(poly.ypoints[2]);
+			map.getNodes().get(29).setXpix(poly.xpoints[3]);
+			map.getNodes().get(29).setYpix(poly.ypoints[3]);
+			map.getNodes().get(34).setXpix(poly.xpoints[4]);
+			map.getNodes().get(34).setYpix(poly.ypoints[4]);
+			map.getNodes().get(28).setXpix(poly.xpoints[5]);
+			map.getNodes().get(28).setYpix(poly.ypoints[5]);
+			break;
+		case 9:
+			map.getNodes().get(23).setXpix(poly.xpoints[0]);
+			map.getNodes().get(23).setYpix(poly.ypoints[0]);
+			map.getNodes().get(18).setXpix(poly.xpoints[1]);
+			map.getNodes().get(18).setYpix(poly.ypoints[1]);
+			map.getNodes().get(24).setXpix(poly.xpoints[2]);
+			map.getNodes().get(24).setYpix(poly.ypoints[2]);
+			map.getNodes().get(30).setXpix(poly.xpoints[3]);
+			map.getNodes().get(30).setYpix(poly.ypoints[3]);
+			map.getNodes().get(35).setXpix(poly.xpoints[4]);
+			map.getNodes().get(35).setYpix(poly.ypoints[4]);
+			map.getNodes().get(29).setXpix(poly.xpoints[5]);
+			map.getNodes().get(29).setYpix(poly.ypoints[5]);
+			break;
+		case 10:
+			map.getNodes().get(24).setXpix(poly.xpoints[0]);
+			map.getNodes().get(24).setYpix(poly.ypoints[0]);
+			map.getNodes().get(19).setXpix(poly.xpoints[1]);
+			map.getNodes().get(19).setYpix(poly.ypoints[1]);
+			map.getNodes().get(25).setXpix(poly.xpoints[2]);
+			map.getNodes().get(25).setYpix(poly.ypoints[2]);
+			map.getNodes().get(31).setXpix(poly.xpoints[3]);
+			map.getNodes().get(31).setYpix(poly.ypoints[3]);
+			map.getNodes().get(36).setXpix(poly.xpoints[4]);
+			map.getNodes().get(36).setYpix(poly.ypoints[4]);
+			map.getNodes().get(30).setXpix(poly.xpoints[5]);
+			map.getNodes().get(30).setYpix(poly.ypoints[5]);
+			break;
+		case 11:
+			map.getNodes().get(25).setXpix(poly.xpoints[0]);
+			map.getNodes().get(25).setYpix(poly.ypoints[0]);
+			map.getNodes().get(20).setXpix(poly.xpoints[1]);
+			map.getNodes().get(20).setYpix(poly.ypoints[1]);
+			map.getNodes().get(26).setXpix(poly.xpoints[2]);
+			map.getNodes().get(26).setYpix(poly.ypoints[2]);
+			map.getNodes().get(32).setXpix(poly.xpoints[3]);
+			map.getNodes().get(32).setYpix(poly.ypoints[3]);
+			map.getNodes().get(37).setXpix(poly.xpoints[4]);
+			map.getNodes().get(37).setYpix(poly.ypoints[4]);
+			map.getNodes().get(31).setXpix(poly.xpoints[5]);
+			map.getNodes().get(31).setYpix(poly.ypoints[5]);
+			break;
+		case 12:
+			map.getNodes().get(33).setXpix(poly.xpoints[0]);
+			map.getNodes().get(33).setYpix(poly.ypoints[0]);
+			map.getNodes().get(28).setXpix(poly.xpoints[1]);
+			map.getNodes().get(28).setYpix(poly.ypoints[1]);
+			map.getNodes().get(34).setXpix(poly.xpoints[2]);
+			map.getNodes().get(34).setYpix(poly.ypoints[2]);
+			map.getNodes().get(39).setXpix(poly.xpoints[3]);
+			map.getNodes().get(39).setYpix(poly.ypoints[3]);
+			map.getNodes().get(43).setXpix(poly.xpoints[4]);
+			map.getNodes().get(43).setYpix(poly.ypoints[4]);
+			map.getNodes().get(38).setXpix(poly.xpoints[5]);
+			map.getNodes().get(38).setYpix(poly.ypoints[5]);
+			break;
+		case 13:
+			map.getNodes().get(34).setXpix(poly.xpoints[0]);
+			map.getNodes().get(34).setYpix(poly.ypoints[0]);
+			map.getNodes().get(29).setXpix(poly.xpoints[1]);
+			map.getNodes().get(29).setYpix(poly.ypoints[1]);
+			map.getNodes().get(35).setXpix(poly.xpoints[2]);
+			map.getNodes().get(35).setYpix(poly.ypoints[2]);
+			map.getNodes().get(40).setXpix(poly.xpoints[3]);
+			map.getNodes().get(40).setYpix(poly.ypoints[3]);
+			map.getNodes().get(44).setXpix(poly.xpoints[4]);
+			map.getNodes().get(44).setYpix(poly.ypoints[4]);
+			map.getNodes().get(39).setXpix(poly.xpoints[5]);
+			map.getNodes().get(39).setYpix(poly.ypoints[5]);
+			break;
+		case 14:
+			map.getNodes().get(35).setXpix(poly.xpoints[0]);
+			map.getNodes().get(35).setYpix(poly.ypoints[0]);
+			map.getNodes().get(30).setXpix(poly.xpoints[1]);
+			map.getNodes().get(30).setYpix(poly.ypoints[1]);
+			map.getNodes().get(36).setXpix(poly.xpoints[2]);
+			map.getNodes().get(36).setYpix(poly.ypoints[2]);
+			map.getNodes().get(41).setXpix(poly.xpoints[3]);
+			map.getNodes().get(41).setYpix(poly.ypoints[3]);
+			map.getNodes().get(45).setXpix(poly.xpoints[4]);
+			map.getNodes().get(45).setYpix(poly.ypoints[4]);
+			map.getNodes().get(40).setXpix(poly.xpoints[5]);
+			map.getNodes().get(40).setYpix(poly.ypoints[5]);
+			break;
+		case 15:
+			map.getNodes().get(36).setXpix(poly.xpoints[0]);
+			map.getNodes().get(36).setYpix(poly.ypoints[0]);
+			map.getNodes().get(31).setXpix(poly.xpoints[1]);
+			map.getNodes().get(31).setYpix(poly.ypoints[1]);
+			map.getNodes().get(37).setXpix(poly.xpoints[2]);
+			map.getNodes().get(37).setYpix(poly.ypoints[2]);
+			map.getNodes().get(42).setXpix(poly.xpoints[3]);
+			map.getNodes().get(42).setYpix(poly.ypoints[3]);
+			map.getNodes().get(46).setXpix(poly.xpoints[4]);
+			map.getNodes().get(46).setYpix(poly.ypoints[4]);
+			map.getNodes().get(41).setXpix(poly.xpoints[5]);
+			map.getNodes().get(41).setYpix(poly.ypoints[5]);
+			break;
+		case 16:
+			map.getNodes().get(43).setXpix(poly.xpoints[0]);
+			map.getNodes().get(43).setYpix(poly.ypoints[0]);
+			map.getNodes().get(39).setXpix(poly.xpoints[1]);
+			map.getNodes().get(39).setYpix(poly.ypoints[1]);
+			map.getNodes().get(44).setXpix(poly.xpoints[2]);
+			map.getNodes().get(44).setYpix(poly.ypoints[2]);
+			map.getNodes().get(48).setXpix(poly.xpoints[3]);
+			map.getNodes().get(48).setYpix(poly.ypoints[3]);
+			map.getNodes().get(51).setXpix(poly.xpoints[4]);
+			map.getNodes().get(51).setYpix(poly.ypoints[4]);
+			map.getNodes().get(47).setXpix(poly.xpoints[5]);
+			map.getNodes().get(47).setYpix(poly.ypoints[5]);
+			break;
+		case 17:
+			map.getNodes().get(44).setXpix(poly.xpoints[0]);
+			map.getNodes().get(44).setYpix(poly.ypoints[0]);
+			map.getNodes().get(40).setXpix(poly.xpoints[1]);
+			map.getNodes().get(40).setYpix(poly.ypoints[1]);
+			map.getNodes().get(45).setXpix(poly.xpoints[2]);
+			map.getNodes().get(45).setYpix(poly.ypoints[2]);
+			map.getNodes().get(49).setXpix(poly.xpoints[3]);
+			map.getNodes().get(49).setYpix(poly.ypoints[3]);
+			map.getNodes().get(52).setXpix(poly.xpoints[4]);
+			map.getNodes().get(52).setYpix(poly.ypoints[4]);
+			map.getNodes().get(48).setXpix(poly.xpoints[5]);
+			map.getNodes().get(48).setYpix(poly.ypoints[5]);
+			break;
+		case 18:
+			map.getNodes().get(45).setXpix(poly.xpoints[0]);
+			map.getNodes().get(45).setYpix(poly.ypoints[0]);
+			map.getNodes().get(41).setXpix(poly.xpoints[1]);
+			map.getNodes().get(41).setYpix(poly.ypoints[1]);
+			map.getNodes().get(46).setXpix(poly.xpoints[2]);
+			map.getNodes().get(46).setYpix(poly.ypoints[2]);
+			map.getNodes().get(50).setXpix(poly.xpoints[3]);
+			map.getNodes().get(50).setYpix(poly.ypoints[3]);
+			map.getNodes().get(53).setXpix(poly.xpoints[4]);
+			map.getNodes().get(53).setYpix(poly.ypoints[4]);
+			map.getNodes().get(49).setXpix(poly.xpoints[5]);
+			map.getNodes().get(49).setYpix(poly.ypoints[5]);
+			break;
+		default:
+			break;
+	}
+		
+		
+		
+		//
+		
+		
 		//g2.fillPolygon(hexmech.hex(x,y));
 		g2.fillPolygon(poly);
 		g2.setColor(Color.BLACK);
