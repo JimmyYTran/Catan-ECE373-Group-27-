@@ -75,20 +75,23 @@ public class CatanGui extends JFrame {
 
 	public CatanGui() {
 		super("Catan");
-
+		 currentPlayer = 0;
+		 countIntial = 0;
+		 gameStart = 0;
+		 buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
+		//private String title = "Catan";
+		 moveRobby = 0;
+		
 		map = new Map();// creates the map
-
-		setSize(450, 500); // size
-		// setLayout(new FlowLayout(FlowLayout.CENTER));//Layout
+		
+		setSize(450, 500);
 		startScreen();
-		//currentPlayerbuildScreen();
-		setLocationRelativeTo(null); 
-		// add(new JLabel("<HTML><center>Welcome to Catan!</center><HTML>" ));
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		buildGUI();
+		//System.out.println("stage1");
 		setVisible(true);
-		// Panels will be built here
-		// There will be a switch in
+		
 	}
 
 	public void buildGUI() {
@@ -108,7 +111,7 @@ public class CatanGui extends JFrame {
 		options.add(optionCredits);
 
 		menuBar.add(options);
-
+	
 		setJMenuBar(menuBar);
 	}
 
@@ -141,12 +144,6 @@ public class CatanGui extends JFrame {
 				handleResources();
 			}
 			else if (e.getSource() == optionTurnEnd) {
-				if ((currentPlayer + 1) < players.size()){
-					currentPlayer++;
-				}
-				else {
-					currentPlayer = 0;
-				}
 				menuBar.removeAll();
 				options = new JMenu("Options");
 				optionClose = new JMenuItem("Close");
@@ -162,10 +159,35 @@ public class CatanGui extends JFrame {
 				options.add(optionCredits);
 
 				menuBar.add(options);
+				if(players.get(currentPlayer).getPoints() >= 2) {
+					
+					JPanel winner = new JPanel();
+					winner.add(new JLabel(players.get(currentPlayer).getName() + " has won!"));
+					JOptionPane.showMessageDialog(null,winner, "This guys is better than the others" ,JOptionPane.PLAIN_MESSAGE );
+					currentPlayer = 0;
+					 countIntial = 0;
+					 gameStart = 0;
+					 buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
+					//private String title = "Catan";
+					 moveRobby = 0;
+					menuBar.removeAll();
+					map = new Map();
+					currentPlayerHex.setVisible(false);
+					currentPlayerHex = null;
+					startScreen();
+					buildGUI();
+				}
+				else {	
+					if ((currentPlayer + 1) < players.size()){
+						currentPlayer++;
+					}
+					else {
+						currentPlayer = 0;
+					}
 				PlayerScreen();
-				System.out.println("Player Switch");
+				System.out.println(players.get(currentPlayer).getPoints());
 				diceScreen();
-				setName(players.get(currentPlayer).getName());
+				setName(players.get(currentPlayer).getName());}
 			}
 			else if(e.getSource() == optionRoad) {
 				buildcount = 1;
@@ -269,6 +291,7 @@ public class CatanGui extends JFrame {
 				players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
 				if (players.size() == playernumber) {
 					startScreen.setVisible(false);
+					
 					currentPlayerbuildScreen();
 				}
 			}
@@ -516,8 +539,13 @@ public class CatanGui extends JFrame {
 				//int count = 0;
 				//int reverse = 0;
 				Point p = new Point(hexmech.pxtoHex(e.getX(), e.getY()));
-				if (p.x < 0 || p.y < 0 || p.x >= 5 || p.y >= 5)
+			/*	if (p.x < 0 || p.y < 0 || p.x >= 5 || p.y >= 5) {
 					return;
+				}*/
+				if((p.x == 0 && p.y > 0 && p.y < 4) || (p.x == 1 && p.y < 4) || (p.x == 2) || (p.x == 3 && p.y < 4)
+							|| (p.x == 4 && p.y > 0 && p.y < 4)) {
+					
+				
 				System.out.println(p.x + " " + p.y);
 				// need to open up a new tab in here
 				//for(int i = 0; i < playernumber; i++) {
@@ -570,9 +598,10 @@ public class CatanGui extends JFrame {
 			repaint();
 				//}
 			}
-			
+				else {return;}	
 		}
-
+		}
+		
 	}
 
 	private void buildHexOptions(int x, int y, int playerinarray) {// need to associate p.x and p.y to the hexes
@@ -843,6 +872,7 @@ public class CatanGui extends JFrame {
 		moveRobby = 0;
 		
 	}
+
 	
 	
 	
