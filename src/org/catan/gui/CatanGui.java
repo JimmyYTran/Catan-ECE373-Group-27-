@@ -188,7 +188,7 @@ public class CatanGui extends JFrame {
 					}
 				PlayerScreen();
 				System.out.println(players.get(currentPlayer).getPoints());
-				diceScreen();
+			//	diceScreen();
 				setName(players.get(currentPlayer).getName());}
 			}
 			else if(e.getSource() == optionRoad) {
