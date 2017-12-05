@@ -481,17 +481,15 @@ public class CatanGui extends JFrame {
 					harborRes = new JComboBox(resourceList);
 					harborRes.setEditable(false);
 					harborSpecTrade.add(harborRes);
+				
+					int newResult = JOptionPane.showConfirmDialog(null, harborSpecTrade, "Trade in progress...", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 					
 					String pResource = (String) playerRes.getSelectedItem();
 					String hResource = (String) harborRes.getSelectedItem();
 					
-					int newResult = JOptionPane.showConfirmDialog(null, harborSpecTrade, "Trade in progress...", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-					
 					if (newResult == JOptionPane.OK_OPTION) {
 						confirmPanel = new JPanel();
 						confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(harbor, map, pResource, hResource)));
-						System.out.println(pResource + "\n");
-						System.out.println(hResource + "\n");
 						JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
 					}
 				}
