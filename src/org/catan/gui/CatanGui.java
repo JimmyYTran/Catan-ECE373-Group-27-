@@ -1683,11 +1683,11 @@ public class CatanGui extends JFrame {
 			for(int i = 0; i < 19; i++) {
 				if(map.getHexes().get(i).getRobberStatus() == true) {
 					map.getHexes().get(i).setRobberStatus(false); 
-					oldRobberSpot = i;
 				}
 			}
 			
 			map.getHexes().get( FindHex( x, y)).setRobberStatus(true);
+			oldRobberSpot = FindHex(x,y);
 			moveRobby = 0;
 		}
 		
