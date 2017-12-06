@@ -213,11 +213,11 @@ public class Player {
 		else if (n.getOwner() != this) {
 			return("You do not currently own this node!");
 		}
-		else if((ore < 3) && (grain < 2)) {
+		else if((ore < 3) || (grain < 2)) {
 			return("Not enough resources to build a city!");
 		}
 		else {
-			n.setStatus("city");
+			n.setStatus("c");
 			ore -= 3;
 			grain -= 2;
 			totalCities += 1;

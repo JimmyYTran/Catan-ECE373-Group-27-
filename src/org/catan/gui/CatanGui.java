@@ -1062,26 +1062,25 @@ public class CatanGui extends JFrame {
 			 place = "Settlement";
 		  }
 		  else if (buildcount ==3) {
-			  //Fix Citys
-			  if(s == "top") {
-				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(0));
-			  }
-			  else if(s == "topRight") {
-				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(1));
-			  }
-			  else if( s == "topLeft") {
-				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(2));
-			  }
-			  else if( s == "bottomRight") {
+			  if(s == "middleRight") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
 			  }
-			  else if( s == "bottomLeft") {
+			  else if(s == "topRight") {
+				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(0));
+			  }
+			  else if( s == "topLeft") {
+				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(1));
+			  }
+			  else if( s == "bottomRight") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(4));
 			  }
-			  else if(s == "bottom") {
+			  else if( s == "bottomLeft") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(5));
-			  }  
-			  place = "City";
+			  }
+			  else if(s == "middleLeft") {
+				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
+			  }
+			 place = "City";
 		  }
 		  buildPanel.add(new JLabel(result));
 		  JOptionPane.showMessageDialog(null, buildPanel, place + " to " +s + " of " + map.getHex(FindHex(tempX,tempY)).getResourceType() + " " + map.getHex(FindHex(tempX,tempY)).getDiceNumber() ,JOptionPane.PLAIN_MESSAGE );
