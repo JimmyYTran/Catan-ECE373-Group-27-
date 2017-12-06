@@ -1524,8 +1524,8 @@ public class CatanGui extends JFrame {
 			
 			Buildoptions.add(topLeft);
 			Buildoptions.add(topRight);
-			Buildoptions.add(middleRight);
 			Buildoptions.add(middleLeft);
+			Buildoptions.add(middleRight);
 			Buildoptions.add(bottomLeft);
 			Buildoptions.add(bottomRight);
 			int result = JOptionPane.showConfirmDialog(null, Buildoptions, "Add Settlement" + map.getHex(FindHex(x,y)).getResourceType() + " " + map.getHex(FindHex(x,y)).getDiceNumber() , JOptionPane.OK_CANCEL_OPTION,
@@ -1541,8 +1541,8 @@ public class CatanGui extends JFrame {
 			
 			Buildoptions.add(topLeft);
 			Buildoptions.add(topRight);
-			Buildoptions.add(middleRight);
 			Buildoptions.add(middleLeft);
+			Buildoptions.add(middleRight);
 			Buildoptions.add(bottomLeft);
 			Buildoptions.add(bottomRight);
 			int result = JOptionPane.showConfirmDialog(null, Buildoptions, "Add City" + map.getHex(FindHex(x,y)).getResourceType() + " " + map.getHex(FindHex(x,y)).getDiceNumber() , JOptionPane.OK_CANCEL_OPTION,
