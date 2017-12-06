@@ -550,6 +550,7 @@ public class CatanGui extends JFrame {
 		// private void handleFunction() {}
 		private void handleStart() {
 
+			boolean noBlankNames = false;
 			ArrayList<String> playernames = new ArrayList<String>();
 			JTextField player1 = new JTextField(10);
 			JTextField player2 = new JTextField(10);
@@ -580,26 +581,62 @@ public class CatanGui extends JFrame {
 				myPanel.add(player4, BorderLayout.EAST);
 				// playernames.add(player4.getText());
 			}
-			int result = JOptionPane.showConfirmDialog(null, myPanel, "Add Course", JOptionPane.OK_CANCEL_OPTION,
-					JOptionPane.PLAIN_MESSAGE);
-			if (result == JOptionPane.OK_OPTION) {
-				if (playernumber > 1) {
-					playernames.add(player1.getText());
-					playernames.add(player2.getText());
-				}
-				if (playernumber > 2) {
-					playernames.add(player3.getText());
-				}
-				if (playernumber > 3) {
-					playernames.add(player4.getText());
-				}
+			
+			while(noBlankNames == false) {
+				//must initially set noBlankNames to true so that OK_CANCEL works
+				noBlankNames = true;
+				int result = JOptionPane.showConfirmDialog(null, myPanel, "Set Names", JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.PLAIN_MESSAGE);
+				if (result == JOptionPane.OK_OPTION) {
+				
+					if (playernumber > 1) {
+						if((player1.getText().compareTo("")== 0) || (player2.getText().compareTo("")== 0)) {
+							noBlankNames = false;
+						}
+						else {
+							noBlankNames = true;
+							playernames.add(player1.getText());
+							playernames.add(player2.getText());
+						}
 
-				players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
-				if (players.size() == playernumber) {
-					startScreen.setVisible(false);
+						
+					}
+					if (playernumber > 2) {
+						if((player3.getText().compareTo("")== 0)) {
+							noBlankNames = false;
+						}
+						else {
+							noBlankNames = true;
+							playernames.add(player3.getText());
+						}
 					
-					currentPlayerbuildScreen();
-				}
+						
+					}
+					if (playernumber > 3) {
+						if((player4.getText().compareTo("")== 0)) {
+							noBlankNames = false;
+						}
+						else {
+							noBlankNames = true;
+							playernames.add(player4.getText());
+						}
+						
+					}
+					if(noBlankNames == true) {//if we finally get names, make the map
+						players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
+						if (players.size() == playernumber) {
+							startScreen.setVisible(false);
+							currentPlayerbuildScreen();
+						}
+					}
+				}//end of if (OK_OPTION)
+			}//end of while(noBlankNames == false)
+			
+			
+			players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
+			if (players.size() == playernumber) {
+				startScreen.setVisible(false);
+				currentPlayerbuildScreen();
 			}
 		}
 		
