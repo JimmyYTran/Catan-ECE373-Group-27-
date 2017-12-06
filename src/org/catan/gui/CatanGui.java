@@ -637,12 +637,6 @@ public class CatanGui extends JFrame {
 				}//end of if (OK_OPTION)
 			}//end of while(noBlankNames == false)
 			
-			
-			players = Start.createPlayers(playernumber, playernames);// returns arraylist of players
-			if (players.size() == playernumber) {
-				startScreen.setVisible(false);
-				currentPlayerbuildScreen();
-			}
 		}
 		
 		private void handlePlayerTrade() {
