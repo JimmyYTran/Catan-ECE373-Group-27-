@@ -87,6 +87,7 @@ public class CatanGui extends JFrame {
 	private int moveRobby = 0;
 	private int tempX;
 	private int tempY;
+	private int oldRobberSpot = -1;
 
 	public CatanGui() {
 		super("Catan");
@@ -98,6 +99,12 @@ public class CatanGui extends JFrame {
 		 moveRobby = 0;
 		
 		map = new Map();// creates the map
+		for(int i = 0; i < map.getHexes().size(); i++) {
+			if(map.getHexes().get(i).getRobberStatus() == true) {
+				oldRobberSpot = i;
+			}
+					
+		}
 		
 		setSize(450, 500);
 		startScreen();
@@ -147,7 +154,14 @@ public class CatanGui extends JFrame {
 				handleStart();
 			}
 			else if (e.getSource() == optionPlayer) {
-				handlePlayerTrade();
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					handlePlayerTrade();
 			} 
 			else if (e.getSource() == tradeWithP1) {
 				playerTrade.dispose();
@@ -442,72 +456,139 @@ public class CatanGui extends JFrame {
 				}					
 			}
 			else if (e.getSource() == optionBank) {
-				handleBankTrade();
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					handleBankTrade();
 			} 
 			else if (e.getSource() == optionHarbor) {
-				handleHarborTrade();
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					handleHarborTrade();
 			}
 			else if (e.getSource() == optionResources) {
-				handleResources();
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					handleResources();
 			}
 			else if (e.getSource() == optionVictoryPts) {
-				handleVictoryPts();
-			}			
-			else if (e.getSource() == optionTurnEnd) {
-				menuBar.removeAll();
-				options = new JMenu("Options");
-				optionClose = new JMenuItem("Close");
-				optionRules = new JMenuItem("Rules");
-				optionCredits = new JMenuItem("Credits");
-
-				optionClose.addActionListener(new MenuListener());
-				optionRules.addActionListener(new MenuListener());
-				optionCredits.addActionListener(new MenuListener());
-
-				options.add(optionClose);
-				options.add(optionRules);
-				options.add(optionCredits);
-
-				menuBar.add(options);
-				if(players.get(currentPlayer).getPoints() >= 10) {
-					
-					JPanel winner = new JPanel();
-					winner.add(new JLabel(players.get(currentPlayer).getName() + " has won!"));
-					JOptionPane.showMessageDialog(null,winner, "This guys is better than the others" ,JOptionPane.PLAIN_MESSAGE );
-					currentPlayer = 0;
-					 countIntial = 0;
-					 gameStart = 0;
-					 initialOK = 0;
-					 buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
-					//private String title = "Catan";
-					 moveRobby = 0;
-					menuBar.removeAll();
-					map = new Map();
-					currentPlayerHex.setVisible(false);
-					currentPlayerHex = null;
-					startScreen();
-					buildGUI();
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
 				}
-				else {	
-					if ((currentPlayer + 1) < players.size()){
-						currentPlayer++;
-					}
-					else {
+				else
+					handleVictoryPts();
+			}			
+			else if (e.getSource() == optionTurnEnd) {////////////////////////////////////////////////////////EndTurn
+				
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else {///////if the robber changes, or its first turn, do normal stuff
+					//this is done regardless of someone winning (every time aturn ends)
+					menuBar.removeAll();
+					options = new JMenu("Options");
+					optionClose = new JMenuItem("Close");
+					optionRules = new JMenuItem("Rules");
+					optionCredits = new JMenuItem("Credits");
+					optionClose.addActionListener(new MenuListener());
+					optionRules.addActionListener(new MenuListener());
+					optionCredits.addActionListener(new MenuListener());
+					options.add(optionClose);
+					options.add(optionRules);
+					options.add(optionCredits);
+
+					menuBar.add(options);
+					
+					if(players.get(currentPlayer).getPoints() >= 10) {//if someone wins
+						JPanel winner = new JPanel();
+						winner.add(new JLabel(players.get(currentPlayer).getName() + " has won!"));
+						JOptionPane.showMessageDialog(null,winner, "This guys is better than the others" ,JOptionPane.PLAIN_MESSAGE );
 						currentPlayer = 0;
+						 countIntial = 0;
+						 gameStart = 0;
+						 initialOK = 0;
+						 buildcount = 0; //int 0 =  not building, 1 = road, 2 = settlement, 3 = city
+						//private String title = "Catan";
+						 moveRobby = 0;
+						menuBar.removeAll();
+						map = new Map();
+						for(int ii = 0; ii< map.getHexes().size(); ii++) {
+							if(map.getHexes().get(ii).getRobberStatus() == true) {
+								oldRobberSpot = ii;
+							}
+									
+						}
+						currentPlayerHex.setVisible(false);
+						currentPlayerHex = null;
+						startScreen();
+						buildGUI();
 					}
-				PlayerScreen();
-				System.out.println(players.get(currentPlayer).getPoints());
-			//	diceScreen();
-				setName(players.get(currentPlayer).getName());}
-			}
+					else {	//////////////////////////////////////////if no one wins, increment currentplayer
+						if ((currentPlayer + 1) < players.size()){
+							currentPlayer++;
+						}
+						else {
+							currentPlayer = 0;
+						}
+						PlayerScreen();
+						System.out.println(players.get(currentPlayer).getPoints());
+						//	diceScreen();
+						setName(players.get(currentPlayer).getName());
+					}
+				}
+				
+				
+			}////////////end of if(e.getSource() == optionTurnEnd
+			
 			else if(e.getSource() == optionRoad) {
-				buildcount = 1;
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					buildcount = 1;
 			}
 			else if(e.getSource() == optionSettlement) {
-				buildcount = 2;
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					buildcount = 2;
 			}
 			else if(e.getSource() == optionCity) {
-				buildcount = 3;
+				if(moveRobby == 1) {
+					//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+					JPanel MoveTheRobber = new JPanel();
+					MoveTheRobber.add(new JLabel("You need to choose a Hex for the Robber!"));
+					JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+				}
+				else
+					buildcount = 3;
 			}
 			else if (e.getSource() == top) {
 				handleBuild("top");
@@ -1094,12 +1175,12 @@ public class CatanGui extends JFrame {
 		
 		turnEnd.add(optionTurnEnd);
 		
-	if(moveRobby == 0) {
+		///////////////////////////EndTurn //////////////this used to be in an if statement for if(moveRobby == 0)
 		menuBar.add(trading);
 		menuBar.add(build);
 		menuBar.add(player);
 		menuBar.add(turnEnd);
-	}
+
 	
 		setJMenuBar(menuBar);
 		
@@ -1217,94 +1298,79 @@ public class CatanGui extends JFrame {
 			}
 			
 			
-			
-			/*test code///////////////////////////////////////////////
-			System.out.println("node 3 is at X: " + map.getNodes().get(3).getXpix() + "and Y: " +map.getNodes().get(3).getYpix());
-			System.out.println("node 0 is at X: " + map.getNodes().get(0).getXpix() + "and Y: " +map.getNodes().get(0).getYpix());
-			System.out.println("node 4 is at X: " + map.getNodes().get(4).getXpix() + "and Y: " +map.getNodes().get(4).getYpix());
-			System.out.println("node 8 is at X: " + map.getNodes().get(8).getXpix() + "and Y: " +map.getNodes().get(8).getYpix());
-			System.out.println("node 12 is at X: " + map.getNodes().get(12).getXpix() + "and Y:" +map.getNodes().get(12).getYpix());
-			System.out.println("node 7 is at X: " + map.getNodes().get(7).getXpix() + "and Y: " +map.getNodes().get(7).getYpix());
-
-			//////////////////////////*/
+		
 		}
 
 		class MyMouseListener extends MouseAdapter {
+			
 			public void mouseClicked(MouseEvent e) {
 				int x = e.getX();
 				int y = e.getY();
 				//int count = 0;
 				//int reverse = 0;
 				Point p = new Point(hexmech.pxtoHex(e.getX(), e.getY()));
-			/*	if (p.x < 0 || p.y < 0 || p.x >= 5 || p.y >= 5) {
+				/*	if (p.x < 0 || p.y < 0 || p.x >= 5 || p.y >= 5) {
 					return;
 				}*/
-				if((p.x == 0 && p.y > 0 && p.y < 4) || (p.x == 1 && p.y < 4) || (p.x == 2) || (p.x == 3 && p.y < 4)
-							|| (p.x == 4 && p.y > 0 && p.y < 4)) {
-					
+				if((p.x == 0 && p.y > 0 && p.y < 4) || (p.x == 1 && p.y < 4) || (p.x == 2) || (p.x == 3 && p.y < 4)	|| (p.x == 4 && p.y > 0 && p.y < 4)) {		
 				
-				System.out.println(p.x + " " + p.y);
-				// need to open up a new tab in here
-				//for(int i = 0; i < playernumber; i++) {
-				//buildHexOptions(p.x, p.y, currentPlayer); //currentPlayer hex options
-				repaint();
-				//Will need to add cases in which this is not the player
-				//if statement game start == 0
+					System.out.println(p.x + " " + p.y);
+					// need to open up a new tab in here
+					//for(int i = 0; i < playernumber; i++) {
+					//buildHexOptions(p.x, p.y, currentPlayer); //currentPlayer hex options
+					repaint();
+					//Will need to add cases in which this is not the player
+					//if statement game start == 0
 			
+					if(moveRobby == 0) {
+						if(gameStart == 0) {	
+							buildHexOptions(p.x, p.y, currentPlayer); 
+							if(currentPlayer < (playernumber -1) && countIntial == 0 && initialOK == 1) {//countIntial reverses player order
+								currentPlayer++;
+								initialOK = 0;
+							}
+							else if( currentPlayer == 0 && countIntial == 1 && initialOK == 1) {//currentPlayer stage ends when the count goes back to the first player
+								//currentPlayerHex.setVisible(true);
+								PlayerScreen();
+								System.out.println("END");
+								gameStart = 1;
+								initialOK = 0;
+								//game start = 1
+							}
+							else if(currentPlayer == playernumber -1 && countIntial == 0 && initialOK == 1) {
+								countIntial = 1;
+								initialOK = 0;
+							}
+							else if(initialOK == 1) {
+								currentPlayer--; 
+								initialOK = 0;
+								//countIntial = 1;  //if the count has hit the end of the player array, go backwards
+							}
+						}
+						else if (buildcount != 0) {
+							initialOK = 0;
+							buildBuildOptions(p.x,p.y,currentPlayer);
+							System.out.println(buildcount);
+						}
+						else {
+							initialOK = 0;
+							System.out.println(buildcount);
+							buildPlayerOptions(p.x,p.y, currentPlayer);		
+						}
+					}
+					else {/////////////////////////////////////if moveRobby = 1
+						MoveRobber(p.x,p.y,currentPlayer);
+						//used to set moveRobby to 0
+					}
 				
-				
-				
-			
-				if(moveRobby ==0) {
-				if(gameStart == 0) {	
-				buildHexOptions(p.x, p.y, currentPlayer); 
-				if(currentPlayer < (playernumber -1) && countIntial == 0 && initialOK == 1) {//countIntial reverses player order
-				currentPlayer++;
-				initialOK = 0;
+					repaint();
+					//}
 				}
-				else if( currentPlayer == 0 && countIntial == 1 && initialOK == 1) {//currentPlayer stage ends when the count goes back to the first player
-					//currentPlayerHex.setVisible(true);
-					PlayerScreen();
-					System.out.println("END");
-					gameStart = 1;
-					initialOK = 0;
-					//game start = 1
-				}
-				else if(currentPlayer == playernumber -1 && countIntial == 0 && initialOK == 1) {
-					countIntial = 1;
-					initialOK = 0;
-				}
-				else if(initialOK == 1) {
-					currentPlayer--; 
-					initialOK = 0;
-					//countIntial = 1;  //if the count has hit the end of the player array, go backwards
-				}
-				}
-				else if (buildcount != 0) {
-					initialOK = 0;
-					buildBuildOptions(p.x,p.y,currentPlayer);
-					System.out.println(buildcount);
-				}
-				else {
-					initialOK = 0;
-					System.out.println(buildcount);
-				buildPlayerOptions(p.x,p.y, currentPlayer);	
-					
-				}
-			}
-				else {
-					MoveRobber(p.x,p.y,currentPlayer);
-					moveRobby = 0;
-				}
-				
-			repaint();
-				//}
-			}
 				else {return;}	
-		}
-		}
+			}////////////////////////////////////end of public void mouse clicked
+		}/////////////////////////end of class myMouseListener
 		
-	}
+	}	//end of DrawingPanel
 
 	private void buildHexOptions(int x, int y, int playerinarray) {// need to associate p.x and p.y to the hexes
 		
@@ -1596,16 +1662,27 @@ public class CatanGui extends JFrame {
 	}  
 	
 	private void MoveRobber(int x, int y, int playerinarray) {
-		JPanel Robber = new JPanel();
-		for(int i = 0; i < 19; i++) {
-			if(map.getHexes().get(i).getRobberStatus() == true) {
-				map.getHexes().get(i).setRobberStatus(false); 
+		
+		if(FindHex(x,y) == oldRobberSpot) {//if you selected the old robber, it doesnt move it to the smae spot
+				//IF OLD ROBBER HEX IS CURRENT ROBBER HEX AND IT ISNT THE FIRST TURN AND U TRIED TO END TURN WITHOUT SETTING ROBBER
+				JPanel MoveTheRobber = new JPanel();
+				MoveTheRobber.add(new JLabel("You need to choose a DIFFERENT Hex for the Robber!"));
+				JOptionPane.showMessageDialog(null, MoveTheRobber, "Wait!", JOptionPane.PLAIN_MESSAGE);
+			
+		}
+		else {// if you selected a different robber spot, ur good!
+			for(int i = 0; i < 19; i++) {
+				if(map.getHexes().get(i).getRobberStatus() == true) {
+					map.getHexes().get(i).setRobberStatus(false); 
+					oldRobberSpot = i;
+				}
 			}
+			
+			map.getHexes().get( FindHex( x, y)).setRobberStatus(true);
+			moveRobby = 0;
 		}
 		
-		map.getHexes().get( FindHex( x, y)).setRobberStatus(true);
 		
-		moveRobby = 0;
 		
 	}
 
