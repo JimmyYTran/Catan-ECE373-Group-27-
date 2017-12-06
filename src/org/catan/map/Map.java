@@ -559,7 +559,7 @@ public class Map {
 		Edges.get(48).addNearbyEdge(Edges.get(47));
 		Edges.get(48).addNearbyEdge(Edges.get(38));
 		Edges.get(48).addNearbyEdge(Edges.get(53));
-		Edges.get(48).addNearbyNode(Nodes.get(36));
+		Edges.get(48).addNearbyNode(Nodes.get(32));
 		Edges.get(48).addNearbyNode(Nodes.get(37));
 		//49
 		Edges.get(49).addNearbyEdge(Edges.get(39));
