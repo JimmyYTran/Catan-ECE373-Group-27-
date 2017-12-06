@@ -199,20 +199,245 @@ public class CatanGui extends JFrame {
 				p1TradeDeal.add(new JLabel(players.get(0).getName() + "'s Current Resources:"));
 				p1TradeDeal.add(playerResLeft);
 				p1TradeDeal.add(playerResRight);
-				p1TradeDeal.add(new JLabel(""));
-				p1TradeDeal.add(new JLabel(""));
 				
-				int result1 = JOptionPane.showConfirmDialog(null, p1TradeDeal, "Make a Trade Deal with " + players.get(currentPlayer).getName() + "!", 
+				int result1 = JOptionPane.showConfirmDialog(null, p1TradeDeal, "Make a Trade Deal with " + players.get(0).getName() + "!", 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				int[] pcTradeList = { Integer.parseInt(pcBrick.getText()),
+						Integer.parseInt(pcLumber.getText()),
+						Integer.parseInt(pcGrain.getText()),
+						Integer.parseInt(pcWool.getText()),
+						Integer.parseInt(pcOre.getText()) };
+				int[] p1TradeList = { Integer.parseInt(p1Brick.getText()),
+						Integer.parseInt(p1Lumber.getText()),
+						Integer.parseInt(p1Grain.getText()),
+						Integer.parseInt(p1Wool.getText()),
+						Integer.parseInt(p1Ore.getText()) };
+				
+				if (result1 == JOptionPane.OK_OPTION) {
+					confirmPanel = new JPanel();
+					confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(players.get(0), pcTradeList, p1TradeList)));
+					JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+				}
 			}
 			else if (e.getSource() == tradeWithP2) {
+				playerTrade.dispose();
 				
+				JPanel p2TradeDeal = new JPanel();
+				JPanel playerResLeft = new JPanel();
+				JPanel playerResRight = new JPanel();
+				p2TradeDeal.setLayout(new GridLayout(0, 2));
+				playerResLeft.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResLeft.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				playerResRight.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResRight.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				
+				JTextField pcBrick = new JTextField("0", 3);
+				JTextField pcLumber = new JTextField("0", 3);
+				JTextField pcGrain = new JTextField("0", 3);
+				JTextField pcWool = new JTextField("0", 3);
+				JTextField pcOre = new JTextField("0", 3);
+				JTextField p2Brick = new JTextField("0", 3);
+				JTextField p2Lumber = new JTextField("0", 3);
+				JTextField p2Grain = new JTextField("0", 3);
+				JTextField p2Wool = new JTextField("0", 3);
+				JTextField p2Ore = new JTextField("0", 3);
+				
+				playerResLeft.add(new JLabel("Which Resources?"));
+				playerResLeft.add(new JLabel("Trade how much?"));
+				playerResLeft.add(new JLabel("Brick (You have " + players.get(currentPlayer).getResources("brick") + "):"));
+				playerResLeft.add(pcBrick);
+				playerResLeft.add(new JLabel("Lumber (You have " + players.get(currentPlayer).getResources("lumber") + "):"));
+				playerResLeft.add(pcLumber);
+				playerResLeft.add(new JLabel("Grain (You have " + players.get(currentPlayer).getResources("grain") + "):"));
+				playerResLeft.add(pcGrain);
+				playerResLeft.add(new JLabel("Wool (You have " + players.get(currentPlayer).getResources("wool") + "):"));
+				playerResLeft.add(pcWool);
+				playerResLeft.add(new JLabel("Ore (You have " + players.get(currentPlayer).getResources("ore") + "):"));
+				playerResLeft.add(pcOre);
+				playerResRight.add(new JLabel("Which Resources?"));
+				playerResRight.add(new JLabel("Trade how much?"));
+				playerResRight.add(new JLabel("Brick (You have " + players.get(1).getResources("brick") + "):"));
+				playerResRight.add(p2Brick);
+				playerResRight.add(new JLabel("Lumber (You have " + players.get(1).getResources("lumber") + "):"));
+				playerResRight.add(p2Lumber);
+				playerResRight.add(new JLabel("Grain (You have " + players.get(1).getResources("grain") + "):"));
+				playerResRight.add(p2Grain);
+				playerResRight.add(new JLabel("Wool (You have " + players.get(1).getResources("wool") + "):"));
+				playerResRight.add(p2Wool);
+				playerResRight.add(new JLabel("Ore (You have " + players.get(1).getResources("ore") + "):"));
+				playerResRight.add(p2Ore);
+				
+				p2TradeDeal.add(new JLabel(players.get(currentPlayer).getName() + "'s Current Resources:"));
+				p2TradeDeal.add(new JLabel(players.get(1).getName() + "'s Current Resources:"));
+				p2TradeDeal.add(playerResLeft);
+				p2TradeDeal.add(playerResRight);
+				
+				int result2 = JOptionPane.showConfirmDialog(null, p2TradeDeal, "Make a Trade Deal with " + players.get(1).getName() + "!", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				int[] pcTradeList = { Integer.parseInt(pcBrick.getText()),
+						Integer.parseInt(pcLumber.getText()),
+						Integer.parseInt(pcGrain.getText()),
+						Integer.parseInt(pcWool.getText()),
+						Integer.parseInt(pcOre.getText()) };
+				int[] p2TradeList = { Integer.parseInt(p2Brick.getText()),
+						Integer.parseInt(p2Lumber.getText()),
+						Integer.parseInt(p2Grain.getText()),
+						Integer.parseInt(p2Wool.getText()),
+						Integer.parseInt(p2Ore.getText()) };
+				
+				if (result2 == JOptionPane.OK_OPTION) {
+					confirmPanel = new JPanel();
+					confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(players.get(1), pcTradeList, p2TradeList)));
+					JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+				}				
 			}
 			else if (e.getSource() == tradeWithP3) {
+				playerTrade.dispose();
 				
+				JPanel p3TradeDeal = new JPanel();
+				JPanel playerResLeft = new JPanel();
+				JPanel playerResRight = new JPanel();
+				p3TradeDeal.setLayout(new GridLayout(0, 2));
+				playerResLeft.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResLeft.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				playerResRight.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResRight.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				
+				JTextField pcBrick = new JTextField("0", 3);
+				JTextField pcLumber = new JTextField("0", 3);
+				JTextField pcGrain = new JTextField("0", 3);
+				JTextField pcWool = new JTextField("0", 3);
+				JTextField pcOre = new JTextField("0", 3);
+				JTextField p3Brick = new JTextField("0", 3);
+				JTextField p3Lumber = new JTextField("0", 3);
+				JTextField p3Grain = new JTextField("0", 3);
+				JTextField p3Wool = new JTextField("0", 3);
+				JTextField p3Ore = new JTextField("0", 3);
+				
+				playerResLeft.add(new JLabel("Which Resources?"));
+				playerResLeft.add(new JLabel("Trade how much?"));
+				playerResLeft.add(new JLabel("Brick (You have " + players.get(currentPlayer).getResources("brick") + "):"));
+				playerResLeft.add(pcBrick);
+				playerResLeft.add(new JLabel("Lumber (You have " + players.get(currentPlayer).getResources("lumber") + "):"));
+				playerResLeft.add(pcLumber);
+				playerResLeft.add(new JLabel("Grain (You have " + players.get(currentPlayer).getResources("grain") + "):"));
+				playerResLeft.add(pcGrain);
+				playerResLeft.add(new JLabel("Wool (You have " + players.get(currentPlayer).getResources("wool") + "):"));
+				playerResLeft.add(pcWool);
+				playerResLeft.add(new JLabel("Ore (You have " + players.get(currentPlayer).getResources("ore") + "):"));
+				playerResLeft.add(pcOre);
+				playerResRight.add(new JLabel("Which Resources?"));
+				playerResRight.add(new JLabel("Trade how much?"));
+				playerResRight.add(new JLabel("Brick (You have " + players.get(2).getResources("brick") + "):"));
+				playerResRight.add(p3Brick);
+				playerResRight.add(new JLabel("Lumber (You have " + players.get(2).getResources("lumber") + "):"));
+				playerResRight.add(p3Lumber);
+				playerResRight.add(new JLabel("Grain (You have " + players.get(2).getResources("grain") + "):"));
+				playerResRight.add(p3Grain);
+				playerResRight.add(new JLabel("Wool (You have " + players.get(2).getResources("wool") + "):"));
+				playerResRight.add(p3Wool);
+				playerResRight.add(new JLabel("Ore (You have " + players.get(2).getResources("ore") + "):"));
+				playerResRight.add(p3Ore);
+				
+				p3TradeDeal.add(new JLabel(players.get(currentPlayer).getName() + "'s Current Resources:"));
+				p3TradeDeal.add(new JLabel(players.get(2).getName() + "'s Current Resources:"));
+				p3TradeDeal.add(playerResLeft);
+				p3TradeDeal.add(playerResRight);
+				
+				int result3 = JOptionPane.showConfirmDialog(null, p3TradeDeal, "Make a Trade Deal with " + players.get(2).getName() + "!", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				int[] pcTradeList = { Integer.parseInt(pcBrick.getText()),
+						Integer.parseInt(pcLumber.getText()),
+						Integer.parseInt(pcGrain.getText()),
+						Integer.parseInt(pcWool.getText()),
+						Integer.parseInt(pcOre.getText()) };
+				int[] p3TradeList = { Integer.parseInt(p3Brick.getText()),
+						Integer.parseInt(p3Lumber.getText()),
+						Integer.parseInt(p3Grain.getText()),
+						Integer.parseInt(p3Wool.getText()),
+						Integer.parseInt(p3Ore.getText()) };
+				
+				if (result3 == JOptionPane.OK_OPTION) {
+					confirmPanel = new JPanel();
+					confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(players.get(2), pcTradeList, p3TradeList)));
+					JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+				}					
 			}
 			else if (e.getSource() == tradeWithP4) {
+				playerTrade.dispose();
 				
+				JPanel p4TradeDeal = new JPanel();
+				JPanel playerResLeft = new JPanel();
+				JPanel playerResRight = new JPanel();
+				p4TradeDeal.setLayout(new GridLayout(0, 2));
+				playerResLeft.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResLeft.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				playerResRight.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResRight.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				
+				JTextField pcBrick = new JTextField("0", 3);
+				JTextField pcLumber = new JTextField("0", 3);
+				JTextField pcGrain = new JTextField("0", 3);
+				JTextField pcWool = new JTextField("0", 3);
+				JTextField pcOre = new JTextField("0", 3);
+				JTextField p4Brick = new JTextField("0", 3);
+				JTextField p4Lumber = new JTextField("0", 3);
+				JTextField p4Grain = new JTextField("0", 3);
+				JTextField p4Wool = new JTextField("0", 3);
+				JTextField p4Ore = new JTextField("0", 3);
+				
+				playerResLeft.add(new JLabel("Which Resources?"));
+				playerResLeft.add(new JLabel("Trade how much?"));
+				playerResLeft.add(new JLabel("Brick (You have " + players.get(currentPlayer).getResources("brick") + "):"));
+				playerResLeft.add(pcBrick);
+				playerResLeft.add(new JLabel("Lumber (You have " + players.get(currentPlayer).getResources("lumber") + "):"));
+				playerResLeft.add(pcLumber);
+				playerResLeft.add(new JLabel("Grain (You have " + players.get(currentPlayer).getResources("grain") + "):"));
+				playerResLeft.add(pcGrain);
+				playerResLeft.add(new JLabel("Wool (You have " + players.get(currentPlayer).getResources("wool") + "):"));
+				playerResLeft.add(pcWool);
+				playerResLeft.add(new JLabel("Ore (You have " + players.get(currentPlayer).getResources("ore") + "):"));
+				playerResLeft.add(pcOre);
+				playerResRight.add(new JLabel("Which Resources?"));
+				playerResRight.add(new JLabel("Trade how much?"));
+				playerResRight.add(new JLabel("Brick (You have " + players.get(3).getResources("brick") + "):"));
+				playerResRight.add(p4Brick);
+				playerResRight.add(new JLabel("Lumber (You have " + players.get(3).getResources("lumber") + "):"));
+				playerResRight.add(p4Lumber);
+				playerResRight.add(new JLabel("Grain (You have " + players.get(3).getResources("grain") + "):"));
+				playerResRight.add(p4Grain);
+				playerResRight.add(new JLabel("Wool (You have " + players.get(3).getResources("wool") + "):"));
+				playerResRight.add(p4Wool);
+				playerResRight.add(new JLabel("Ore (You have " + players.get(3).getResources("ore") + "):"));
+				playerResRight.add(p4Ore);
+				
+				p4TradeDeal.add(new JLabel(players.get(currentPlayer).getName() + "'s Current Resources:"));
+				p4TradeDeal.add(new JLabel(players.get(3).getName() + "'s Current Resources:"));
+				p4TradeDeal.add(playerResLeft);
+				p4TradeDeal.add(playerResRight);
+				
+				int result4 = JOptionPane.showConfirmDialog(null, p4TradeDeal, "Make a Trade Deal with " + players.get(3).getName() + "!", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
+				int[] pcTradeList = { Integer.parseInt(pcBrick.getText()),
+						Integer.parseInt(pcLumber.getText()),
+						Integer.parseInt(pcGrain.getText()),
+						Integer.parseInt(pcWool.getText()),
+						Integer.parseInt(pcOre.getText()) };
+				int[] p4TradeList = { Integer.parseInt(p4Brick.getText()),
+						Integer.parseInt(p4Lumber.getText()),
+						Integer.parseInt(p4Grain.getText()),
+						Integer.parseInt(p4Wool.getText()),
+						Integer.parseInt(p4Ore.getText()) };
+				
+				if (result4 == JOptionPane.OK_OPTION) {
+					confirmPanel = new JPanel();
+					confirmPanel.add(new JLabel(players.get(currentPlayer).tradeResources(players.get(3), pcTradeList, p4TradeList)));
+					JOptionPane.showMessageDialog(null, confirmPanel, "", JOptionPane.PLAIN_MESSAGE);
+				}					
 			}
 			else if (e.getSource() == optionBank) {
 				handleBankTrade();
