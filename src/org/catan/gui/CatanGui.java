@@ -38,6 +38,10 @@ public class CatanGui extends JFrame {
 	private JMenuItem optionCity;
 	//private JMenuItem optionCheckCards;
 	
+	private JButton tradeWithP1;
+	private JButton tradeWithP2;
+	private JButton tradeWithP3;
+	private JButton tradeWithP4;
 	private JButton b1;
 	private JButton top;
 	private JButton topRight;
@@ -47,7 +51,6 @@ public class CatanGui extends JFrame {
 	private JButton bottom;
 	private JButton middleRight;
 	private JButton middleLeft;
-	
 	
 	private JComboBox<String> cb;
 	private JComboBox<String> nodes;
@@ -62,12 +65,12 @@ public class CatanGui extends JFrame {
 	private int playernumber;
 	private ArrayList<Player> players;
 	
+	private JFrame playerTrade;
 	
 	private JPanel startScreen;
 	private JPanel HexoptionsScreen;
 	private JPanel PlayeroptionsScreen;
 	private JPanel resourcePanel;
-	private JPanel playerTrade;
 	private JPanel bankTrade;
 	private JPanel harborTrade;
 	private JPanel confirmPanel;
@@ -144,6 +147,73 @@ public class CatanGui extends JFrame {
 			else if (e.getSource() == optionPlayer) {
 				handlePlayerTrade();
 			} 
+			else if (e.getSource() == tradeWithP1) {
+				playerTrade.dispose();
+				
+				JPanel p1TradeDeal = new JPanel();
+				JPanel playerResLeft = new JPanel();
+				JPanel playerResRight = new JPanel();
+				p1TradeDeal.setLayout(new GridLayout(0, 2));
+				playerResLeft.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResLeft.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				playerResRight.setLayout(new GridLayout(0, 2, 5, 10));
+				playerResRight.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+				
+				JTextField pcBrick = new JTextField("0", 3);
+				JTextField pcLumber = new JTextField("0", 3);
+				JTextField pcGrain = new JTextField("0", 3);
+				JTextField pcWool = new JTextField("0", 3);
+				JTextField pcOre = new JTextField("0", 3);
+				JTextField p1Brick = new JTextField("0", 3);
+				JTextField p1Lumber = new JTextField("0", 3);
+				JTextField p1Grain = new JTextField("0", 3);
+				JTextField p1Wool = new JTextField("0", 3);
+				JTextField p1Ore = new JTextField("0", 3);
+				
+				playerResLeft.add(new JLabel("Which Resources?"));
+				playerResLeft.add(new JLabel("Trade how much?"));
+				playerResLeft.add(new JLabel("Brick (You have " + players.get(currentPlayer).getResources("brick") + "):"));
+				playerResLeft.add(pcBrick);
+				playerResLeft.add(new JLabel("Lumber (You have " + players.get(currentPlayer).getResources("lumber") + "):"));
+				playerResLeft.add(pcLumber);
+				playerResLeft.add(new JLabel("Grain (You have " + players.get(currentPlayer).getResources("grain") + "):"));
+				playerResLeft.add(pcGrain);
+				playerResLeft.add(new JLabel("Wool (You have " + players.get(currentPlayer).getResources("wool") + "):"));
+				playerResLeft.add(pcWool);
+				playerResLeft.add(new JLabel("Ore (You have " + players.get(currentPlayer).getResources("ore") + "):"));
+				playerResLeft.add(pcOre);
+				playerResRight.add(new JLabel("Which Resources?"));
+				playerResRight.add(new JLabel("Trade how much?"));
+				playerResRight.add(new JLabel("Brick (You have " + players.get(0).getResources("brick") + "):"));
+				playerResRight.add(p1Brick);
+				playerResRight.add(new JLabel("Lumber (You have " + players.get(0).getResources("lumber") + "):"));
+				playerResRight.add(p1Lumber);
+				playerResRight.add(new JLabel("Grain (You have " + players.get(0).getResources("grain") + "):"));
+				playerResRight.add(p1Grain);
+				playerResRight.add(new JLabel("Wool (You have " + players.get(0).getResources("wool") + "):"));
+				playerResRight.add(p1Wool);
+				playerResRight.add(new JLabel("Ore (You have " + players.get(0).getResources("ore") + "):"));
+				playerResRight.add(p1Ore);
+				
+				p1TradeDeal.add(new JLabel(players.get(currentPlayer).getName() + "'s Current Resources:"));
+				p1TradeDeal.add(new JLabel(players.get(0).getName() + "'s Current Resources:"));
+				p1TradeDeal.add(playerResLeft);
+				p1TradeDeal.add(playerResRight);
+				p1TradeDeal.add(new JLabel(""));
+				p1TradeDeal.add(new JLabel(""));
+				
+				int result1 = JOptionPane.showConfirmDialog(null, p1TradeDeal, "Make a Trade Deal with " + players.get(currentPlayer).getName() + "!", 
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			}
+			else if (e.getSource() == tradeWithP2) {
+				
+			}
+			else if (e.getSource() == tradeWithP3) {
+				
+			}
+			else if (e.getSource() == tradeWithP4) {
+				
+			}
 			else if (e.getSource() == optionBank) {
 				handleBankTrade();
 			} 
@@ -309,12 +379,86 @@ public class CatanGui extends JFrame {
 		}
 		
 		private void handlePlayerTrade() {
-			playerTrade = new JPanel();			
-			playerTrade.setLayout(new BorderLayout());
+			playerTrade = new JFrame("Trade with another player!");
+			playerTrade.setSize(200 * players.size(), 250);
+			playerTrade.setLayout(new GridLayout(0, players.size()));
+			playerTrade.setVisible(true);
 			
-			playerTrade.add(new JLabel(players.get(currentPlayer).getName() + "'s Resources:"), BorderLayout.WEST);
-			
-			JOptionPane.showMessageDialog(null, playerTrade, "Trade with a player!", JOptionPane.PLAIN_MESSAGE);
+			JLabel p1Resources = new JLabel();
+			JLabel p2Resources = new JLabel();
+			JLabel p3Resources = new JLabel();
+			JLabel p4Resources = new JLabel();
+			if (players.size() >= 2) {
+				p1Resources.setLayout(new GridLayout(0, 1));
+				p1Resources.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+				p1Resources.add(new JLabel(players.get(0).getName() + "'s Resources:"));
+				p1Resources.add(new JLabel("Brick: " + players.get(0).getResources("brick")));
+				p1Resources.add(new JLabel("Lumber: " + players.get(0).getResources("lumber")));
+				p1Resources.add(new JLabel("Grain: " + players.get(0).getResources("grain")));
+				p1Resources.add(new JLabel("Wool: " + players.get(0).getResources("wool")));
+				p1Resources.add(new JLabel("Ore: " + players.get(0).getResources("ore")));	
+				tradeWithP1 = new JButton("Trade with " + players.get(0).getName());
+				tradeWithP1.addActionListener(new MenuListener());
+				p1Resources.add(tradeWithP1);
+				if (currentPlayer == 0) {
+					tradeWithP1.setEnabled(false);
+					tradeWithP1.setVisible(false);
+				}
+				playerTrade.add(p1Resources);	
+				
+				p2Resources.setLayout(new GridLayout(0, 1));
+				p2Resources.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+				p2Resources.add(new JLabel(players.get(1).getName() + "'s Resources:"));
+				p2Resources.add(new JLabel("Brick: " + players.get(1).getResources("brick")));
+				p2Resources.add(new JLabel("Lumber: " + players.get(1).getResources("lumber")));
+				p2Resources.add(new JLabel("Grain: " + players.get(1).getResources("grain")));
+				p2Resources.add(new JLabel("Wool: " + players.get(1).getResources("wool")));
+				p2Resources.add(new JLabel("Ore: " + players.get(1).getResources("ore")));
+				tradeWithP2 = new JButton("Trade with " + players.get(1).getName());
+				tradeWithP2.addActionListener(new MenuListener());
+				p2Resources.add(tradeWithP2);
+				if (currentPlayer == 1) {
+					tradeWithP2.setEnabled(false);
+					tradeWithP2.setVisible(false);					
+				}
+				playerTrade.add(p2Resources);
+			}
+			if (players.size() >= 3) {
+				p3Resources.setLayout(new GridLayout(0, 1));
+				p3Resources.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+				p3Resources.add(new JLabel(players.get(2).getName() + "'s Resources:"));
+				p3Resources.add(new JLabel("Brick: " + players.get(2).getResources("brick")));
+				p3Resources.add(new JLabel("Lumber: " + players.get(2).getResources("lumber")));
+				p3Resources.add(new JLabel("Grain: " + players.get(2).getResources("grain")));
+				p3Resources.add(new JLabel("Wool: " + players.get(2).getResources("wool")));
+				p3Resources.add(new JLabel("Ore: " + players.get(2).getResources("ore")));
+				tradeWithP3 = new JButton("Trade with " + players.get(2).getName());
+				tradeWithP3.addActionListener(new MenuListener());
+				p3Resources.add(tradeWithP3);
+				if (currentPlayer == 2) {
+					tradeWithP3.setEnabled(false);
+					tradeWithP3.setVisible(false);					
+				}
+				playerTrade.add(p3Resources);
+			}
+			if (players.size() == 4) {
+				p4Resources.setLayout(new GridLayout(0, 1));
+				p4Resources.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+				p4Resources.add(new JLabel(players.get(3).getName() + "'s Resources:"));
+				p4Resources.add(new JLabel("Brick: " + players.get(3).getResources("brick")));
+				p4Resources.add(new JLabel("Lumber: " + players.get(3).getResources("lumber")));
+				p4Resources.add(new JLabel("Grain: " + players.get(3).getResources("grain")));
+				p4Resources.add(new JLabel("Wool: " + players.get(3).getResources("wool")));
+				p4Resources.add(new JLabel("Ore: " + players.get(3).getResources("ore")));
+				tradeWithP4 = new JButton("Trade with " + players.get(3).getName());
+				tradeWithP4.addActionListener(new MenuListener());
+				p4Resources.add(tradeWithP4);
+				if (currentPlayer == 3) {
+					tradeWithP4.setEnabled(false);
+					tradeWithP4.setVisible(false);					
+				}
+				playerTrade.add(p4Resources);
+			}
 		}
 		
 		private void handleBankTrade() {
