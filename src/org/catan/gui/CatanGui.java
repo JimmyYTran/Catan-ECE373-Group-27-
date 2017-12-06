@@ -33,6 +33,7 @@ public class CatanGui extends JFrame {
 	private JMenuItem optionHarbor;
 	private JMenuItem optionTurnEnd;
 	private JMenuItem optionResources;
+	private JMenuItem optionVictoryPts;
 	private JMenuItem optionRoad;
 	private JMenuItem optionSettlement;
 	private JMenuItem optionCity;
@@ -71,6 +72,7 @@ public class CatanGui extends JFrame {
 	private JPanel HexoptionsScreen;
 	private JPanel PlayeroptionsScreen;
 	private JPanel resourcePanel;
+	private JPanel victoryPointsPanel;
 	private JPanel bankTrade;
 	private JPanel harborTrade;
 	private JPanel confirmPanel;
@@ -448,6 +450,9 @@ public class CatanGui extends JFrame {
 			else if (e.getSource() == optionResources) {
 				handleResources();
 			}
+			else if (e.getSource() == optionVictoryPts) {
+				handleVictoryPts();
+			}			
 			else if (e.getSource() == optionTurnEnd) {
 				menuBar.removeAll();
 				options = new JMenu("Options");
@@ -878,6 +883,14 @@ public class CatanGui extends JFrame {
 			
 			JOptionPane.showMessageDialog(null, resourcePanel, "Resources" ,JOptionPane.PLAIN_MESSAGE );
 		}
+		
+		private void handleVictoryPts() {	
+			victoryPointsPanel = new JPanel();
+			victoryPointsPanel.setLayout(new GridLayout(0, 1));
+			victoryPointsPanel.add(new JLabel(players.get(currentPlayer).getName() + " has " + Integer.toString(players.get(currentPlayer).getPoints()) + " victory points."));
+			victoryPointsPanel.add(new JLabel("You need " + Integer.toString(10 - players.get(currentPlayer).getPoints()) + " more victory points to win!"));
+			JOptionPane.showMessageDialog(null, victoryPointsPanel, players.get(currentPlayer).getName() + "'s Victory Points" ,JOptionPane.PLAIN_MESSAGE );
+		}
 	 		
 	  private void handleBuild(String s) {
 		  System.out.println("handleBuild");
@@ -1023,14 +1036,25 @@ public class CatanGui extends JFrame {
 		build.add(optionSettlement);
 		build.add(optionCity);
 
+		if (currentPlayer == 0)
+			player = new JMenu("<html><font color=\"red\">" + players.get(currentPlayer).getName() + "</font></html>");
+		else if (currentPlayer == 1)
+			player = new JMenu("<html><font color=\"blue\">" + players.get(currentPlayer).getName() + "</font></html>");
+		else if (currentPlayer == 2)
+			player = new JMenu("<html><font color=\"orange\">" + players.get(currentPlayer).getName() + "</font></html>");
+		else if (currentPlayer == 3)
+			player = new JMenu("<html><font color=\"gray\">" + players.get(currentPlayer).getName() + "</font></html>");
+		else
+			player = new JMenu(players.get(currentPlayer).getName());
 		
-		player = new JMenu(players.get(currentPlayer).getName());
 		optionResources = new JMenuItem("Check Resources");
+		optionVictoryPts = new JMenuItem("Check Victory Points");
 		
 		optionResources.addActionListener(new MenuListener());
+		optionVictoryPts.addActionListener(new MenuListener());
 		
 		player.add(optionResources);
-		
+		player.add(optionVictoryPts);
 		
 		turnEnd = new JMenu("End Turn");
 		optionTurnEnd = new JMenuItem("End Turn");
@@ -1268,7 +1292,7 @@ public class CatanGui extends JFrame {
 		JPanel Confirm = new JPanel();
 		Confirm.add(new JLabel("Go again"));
 		
-		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,players.get(playerinarray).getName() + "'scurrentPlayer Settlement", JOptionPane.OK_CANCEL_OPTION,
+		int result = JOptionPane.showConfirmDialog(null, HexoptionsScreen,players.get(playerinarray).getName() + "'s Starting Settlement and Road", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.PLAIN_MESSAGE);
 		if (result == JOptionPane.OK_OPTION){
 			//make sure the road is next to the node
