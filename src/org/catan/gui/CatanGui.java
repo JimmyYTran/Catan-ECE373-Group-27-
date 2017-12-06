@@ -670,39 +670,40 @@ public class CatanGui extends JFrame {
 		  else if( s == "topLeft") {
 			  result = players.get(currentPlayer).buildRoad(map.getHexes().get(FindHex(tempX, tempY)).getNearbyEdges().get(2));
 		  }
-		  else if( s == "bottom") {
+		  else if( s == "bottomRight") {
 			  result = players.get(currentPlayer).buildRoad(map.getHexes().get(FindHex(tempX, tempY)).getNearbyEdges().get(3));
 		  }
-		  else if( s == "bottomRight") {
+		  else if( s == "bottomLeft") {
 			  result = players.get(currentPlayer).buildRoad(map.getHexes().get(FindHex(tempX, tempY)).getNearbyEdges().get(4));
 		  }
-		  else if(s == "bottomLeft") {
+		  else if(s == "bottom") {
 			  result = players.get(currentPlayer).buildRoad(map.getHexes().get(FindHex(tempX, tempY)).getNearbyEdges().get(5));
 		  }
 		  place = "Road";
 		}
 		  else if (buildcount == 2) {
-			  if(s == "top") {
-				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(0));
+			  if(s == "middleRight") {
+				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
 			  }
 			  else if(s == "topRight") {
-				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(1));
+				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(0));
 			  }
 			  else if( s == "topLeft") {
-				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(2));
-			  }
-			  else if( s == "bottom") {
-				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
+				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(1));
 			  }
 			  else if( s == "bottomRight") {
 				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(4));
 			  }
-			  else if(s == "bottomLeft") {
+			  else if( s == "bottomLeft") {
 				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(5));
+			  }
+			  else if(s == "middleLeft") {
+				  result = players.get(currentPlayer).buildSettlement(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
 			  }
 			 place = "Settlement";
 		  }
 		  else if (buildcount ==3) {
+			  //Fix Citys
 			  if(s == "top") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(0));
 			  }
@@ -712,13 +713,13 @@ public class CatanGui extends JFrame {
 			  else if( s == "topLeft") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(2));
 			  }
-			  else if( s == "bottom") {
+			  else if( s == "bottomRight") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(3));
 			  }
-			  else if( s == "bottomRight") {
+			  else if( s == "bottomLeft") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(4));
 			  }
-			  else if(s == "bottomLeft") {
+			  else if(s == "bottom") {
 				  result = players.get(currentPlayer).buildCity(map.getHexes().get(FindHex(tempX, tempY)).getNearbyNodes().get(5));
 			  }  
 			  place = "City";
@@ -1000,10 +1001,12 @@ public class CatanGui extends JFrame {
 				}
 				}
 				else if (buildcount != 0) {
+					initialOK = 0;
 					buildBuildOptions(p.x,p.y,currentPlayer);
 					System.out.println(buildcount);
 				}
 				else {
+					initialOK = 0;
 					System.out.println(buildcount);
 				buildPlayerOptions(p.x,p.y, currentPlayer);	
 					
@@ -1063,40 +1066,47 @@ public class CatanGui extends JFrame {
 			JOptionPane.showMessageDialog(null, Confirm, "Invaid Settlement" ,JOptionPane.PLAIN_MESSAGE );
 		}
 		
-		
+		System.out.print(success +""+initialOK);
 			if(edges.getSelectedItem() == Edges[0] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(0)));
-				success = 0;
+				//success = 0;
 				initialOK = 1;
+				System.out.print(success +""+initialOK);
 			}
 			else if(edges.getSelectedItem() == Edges[1] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(1)));
-				success = 0;
+				//success = 0;
 				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[2] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(2)));
-				success = 0;
+				//success = 0;
 				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[3] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(3)));
-				success = 0;
+				//success = 0;
 				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[4] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(4)));
-				success = 0;
+				//success = 0;
 				initialOK = 1;
 			}
 			else if(edges.getSelectedItem() == Edges[5] && success == 1) {
 				System.out.println(players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(5)));
-				success = 0;
+			//	success = 0;
+			//	if()players.get(playerinarray).buildStartingRoad(map.getHexes().get(FindHex(x, y)).getNearbyEdges().get(5)== "Settlement successfully built!")
 				initialOK = 1;
 			}
-		if(initialOK == 0 && success ==1) {
+		if( success ==1 && initialOK == 0) {
 			players.get(playerinarray).getNodes().remove(players.get(playerinarray).getNodes().size() -1);
+			System.out.println(players.get(playerinarray).getNodes().size());
+			
 			JOptionPane.showMessageDialog(null, Confirm, "Invaid Road" ,JOptionPane.PLAIN_MESSAGE );
+/////////////////////////Add to panel right here to ask for road
+			//comboBox that include options for road 
+			
 		}
 			
 			
