@@ -620,17 +620,26 @@ public class CatanGui extends JFrame {
 		}
 
 		private void handleRules() {
-			JTextArea textArea = new JTextArea(50, 50);
+			JPanel RulesText = new JPanel();
+			RulesText.add(new JLabel("The Official Rules for Settlers of Catan are found at   https://www.catan.com/service/game-rules" + 
+					""));
+			JOptionPane.showMessageDialog(null, RulesText, "Rules", JOptionPane.PLAIN_MESSAGE);
+			
+			/*JTextArea textArea = new JTextArea(50, 50);
 			textArea.setText("Rules");
 			textArea.setEditable(false);
 
 			JScrollPane scrollPane = new JScrollPane(textArea);
 			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-			JOptionPane.showMessageDialog(null, scrollPane, "Catan Rules", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, scrollPane, "Catan Rules", JOptionPane.PLAIN_MESSAGE);*/
 		}
 
 		private void handleCredits() {
+			JPanel CreditsText = new JPanel();
+			CreditsText.add(new JLabel("Created by Justin Carlson, Jimmy Tran, and Kyler Gee     Thanks For Playing!"));
+			JOptionPane.showMessageDialog(null, CreditsText, "Credits", JOptionPane.PLAIN_MESSAGE);
+		
 		}
 
 		// private void handleFunction() {}
