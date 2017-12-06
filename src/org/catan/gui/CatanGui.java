@@ -1398,12 +1398,20 @@ public class CatanGui extends JFrame {
 
 	private void buildPlayerOptions(int x, int y, int playerinarray) {
 		PlayeroptionsScreen = new JPanel();// create the panel that allows selections around the hex
-		PlayeroptionsScreen .setLayout(new GridLayout(0,4 ));
+		PlayeroptionsScreen .setLayout(new GridLayout(0, 4, 20, 2));
 		String Edges[] = { "top", "top right", "top left", "bottom right", "bottom left","bottom" };
 		String Nodes[] = { "top right", "top left", "middle right", " middle left", "bottom right", "bottom left" };
 		//String name;
 		//nodes = new JComboBox(Nodes);
 		//edges = new JComboBox(Edges);
+		PlayeroptionsScreen.add(new JLabel("Settlement Location")); 
+		PlayeroptionsScreen.add(new JLabel("Settlement Availability")); 
+		PlayeroptionsScreen.add(new JLabel("Road Location")); 
+		PlayeroptionsScreen.add(new JLabel("Road Availability")); 
+		PlayeroptionsScreen.add(new JLabel("----------------------------------")); 
+		PlayeroptionsScreen.add(new JLabel("----------------------------------")); 
+		PlayeroptionsScreen.add(new JLabel("----------------------------------")); 
+		PlayeroptionsScreen.add(new JLabel("----------------------------------")); 
 		for(int i =0; i < 6; i++) {
 				PlayeroptionsScreen.add(new JLabel(Nodes[i] + ":")); 
 			if(map.getHexes().get(FindHex(x, y)).getNearbyNodes().get(i).getStatus() == "na" ) {
